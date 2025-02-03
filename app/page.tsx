@@ -204,7 +204,16 @@ export default function Page() {
                     className={`min-h-screen transition-colors duration-300 ${theme === 'dark' ? 'bg-gradient-to-br from-yellow-900 via-amber-800 to-yellow-700 text-white' : 'bg-gradient-to-br from-yellow-50 via-amber-100 to-yellow-100 text-gray-900'} p-8`}
                 >
                     <div className="max-w-6xl mx-auto">
-                        <header className="flex flex-col items-center relative">
+                        <div className="flex flex-col items-center mb-20 pt-20 relative">
+
+                            <div className="relative">
+                                <div className="w-40 h-40 rounded-full bg-gradient-to-r from-yellow-500 to-amber-500 animate-pulse absolute -z-10 blur-xl"></div>
+                                <Image
+                                    src={avatar}
+                                    alt="Profile"
+                                    className="w-40 h-40 rounded-full border-4 border-white shadow-xl"
+                                />
+                            </div>
                             <div className="absolute top-0 flex flex-row sm:flex-row gap-4 p-4 sm:p-0">
                                 <a
                                     href="https://rxresu.me/negm/flutter"
@@ -225,26 +234,14 @@ export default function Page() {
                                     <span>💬</span>
                                 </a>
                             </div>
-
-                        </header>
-                        <div className="flex flex-col items-center mb-20 pt-20 relative">
-
-                            <div className="relative">
-                                <div className="w-40 h-40 rounded-full bg-gradient-to-r from-yellow-500 to-amber-500 animate-pulse absolute -z-10 blur-xl"></div>
-                                <Image
-                                    src={avatar}
-                                    alt="Profile"
-                                    className="w-40 h-40 rounded-full border-4 border-white shadow-xl"
-                                />
-                            </div>
                             <h1 className="text-4xl md:text-6xl font-bold mt-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-yellow-500 to-amber-500">
                                 Abdelrahman Negm
                             </h1>
-                            <p className={`text-xl mt-4 ${theme == `dark` ? `text-gray-300` : `text-gray-600` }`}>Flutter Developer</p>
+                            <p className={`text-xl mt-4 ${theme == `dark` ? `text-gray-300` : `text-gray-600`}`}>Flutter Developer</p>
                             <div className="flex flex-col items-center mt-4 space-y-2">
-                                <p className={theme == 'dark' ? 'text-gray-300' : 'text-gray-600' }>📧 bodinegem@gmail.com</p>
-                                <p className={theme == 'dark' ? 'text-gray-300' : 'text-gray-600' }>📱 +20 102 3741643</p>
-                                <p className={theme == 'dark' ? 'text-gray-300' : 'text-gray-600' }>📍 6th of October, Egypt</p>
+                                <p className={theme == 'dark' ? 'text-gray-300' : 'text-gray-600'}>📧 bodinegem@gmail.com</p>
+                                <p className={theme == 'dark' ? 'text-gray-300' : 'text-gray-600'}>📱 +20 102 3741643</p>
+                                <p className={theme == 'dark' ? 'text-gray-300' : 'text-gray-600'}>📍 6th of October, Egypt</p>
                             </div>
                         </div>
                         <nav className="flex flex-wrap justify-center items-center gap-4 sm:gap-8 mb-16 px-4">
