@@ -336,7 +336,12 @@ export default function Page() {
                                         Try on TestFlight
                                     </a>
                                     <a
-                                        onClick={() => setView('projects')}
+                                        onClick={() => {
+                                            setView('projects')
+                                            window.scrollTo(0, 0)
+                                        }
+
+                                        }
                                         className="text-yellow-500 hover:text-yellow-400 flex items-center justify-center gap-2 cursor-pointer"
                                     >
                                         More Projects →
