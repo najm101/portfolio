@@ -277,7 +277,7 @@ export default function Page() {
                                     }}
                                     className={`px-4 sm:px-6 py-2 rounded-full text-base sm:text-lg transition-all duration-300 ${activeTab === item.id
                                         ? 'bg-white text-yellow-900 shadow-lg transform -translate-y-1'
-                                        : 'text-white hover:bg-white/10'
+                                        : `${theme == 'dark' ? "text-white" : 'text-gray-600'} hover:bg-white/10`
                                         }`}
                                 >
                                     {item.label}
