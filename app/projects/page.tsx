@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 export default function ProjectsPage() {
     const [theme, setTheme] = useState('dark');
@@ -66,9 +67,9 @@ export default function ProjectsPage() {
             <div className="max-w-6xl mx-auto">
                 <header className="text-center mb-12">
                     <h1 className="text-4xl font-bold mb-4">My Projects</h1>
-                    <a href="/" className="text-yellow-500 hover:text-yellow-400">
+                    <Link href="/" className="text-yellow-500 hover:text-yellow-400">
                         ← Back to Home
-                    </a>
+                    </Link>
                 </header>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

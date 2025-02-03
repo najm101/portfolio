@@ -2,6 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
+import natgasScreenshots from '../public/static/natgas_screenshots.png';
+import avatar from '../public/static/avatar.png';
 
 export default function Page() {
     const [activeTab, setActiveTab] = useState('about');
@@ -228,8 +231,8 @@ export default function Page() {
 
                             <div className="relative">
                                 <div className="w-40 h-40 rounded-full bg-gradient-to-r from-yellow-500 to-amber-500 animate-pulse absolute -z-10 blur-xl"></div>
-                                <img
-                                    src="images/avatar.png"
+                                <Image
+                                    src={avatar}
                                     alt="Profile"
                                     className="w-40 h-40 rounded-full border-4 border-white shadow-xl"
                                 />
@@ -290,7 +293,7 @@ export default function Page() {
                             >
                                 <h2 className="text-2xl font-bold mb-4">About Me</h2>
                                 <p className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>
-                                    I'm a motivated Software Developer with a focus on creating
+                                    I&apos;m a motivated Software Developer with a focus on creating
                                     intuitive user interfaces and high-performance applications. I
                                     have a strong foundation in mobile app development and a keen
                                     interest in clean, readable, and testable code. Ready for
@@ -308,8 +311,14 @@ export default function Page() {
                                 <h2 className="text-2xl font-bold mb-4">Latest Project</h2>
                                 <div className="mb-4"
                                 >
-                                    <img
-                                        src="images/natgas_screenshots.png"
+                                    <Image
+                                        sizes="100vw"
+                                        // Make the image display full width
+                                        style={{
+                                            width: '100%',
+                                            height: 'auto',
+                                        }}
+                                        src={natgasScreenshots}
                                         alt="Roze Moon"
                                         className="object-cover rounded-xl"
 
@@ -371,7 +380,7 @@ export default function Page() {
                                 </div>
                             </div>
 
-                            
+
                         </div>
 
                         <footer
