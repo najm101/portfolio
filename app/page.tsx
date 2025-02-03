@@ -240,11 +240,11 @@ export default function Page() {
                             <h1 className="text-4xl md:text-6xl font-bold mt-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-yellow-500 to-amber-500">
                                 Abdelrahman Negm
                             </h1>
-                            <p className="text-xl mt-4 text-gray-300">Flutter Developer</p>
+                            <p className={`text-xl mt-4 ${theme == `dark` ? `text-gray-300` : `text-gray-600` }`}>Flutter Developer</p>
                             <div className="flex flex-col items-center mt-4 space-y-2">
-                                <p className="text-gray-300">📧 bodinegem@gmail.com</p>
-                                <p className="text-gray-300">📱 +20 102 3741643</p>
-                                <p className="text-gray-300">📍 6th of October, Egypt</p>
+                                <p className={theme == 'dark' ? 'text-gray-300' : 'text-gray-600' }>📧 bodinegem@gmail.com</p>
+                                <p className={theme == 'dark' ? 'text-gray-300' : 'text-gray-600' }>📱 +20 102 3741643</p>
+                                <p className={theme == 'dark' ? 'text-gray-300' : 'text-gray-600' }>📍 6th of October, Egypt</p>
                             </div>
                         </div>
                         <nav className="flex flex-wrap justify-center items-center gap-4 sm:gap-8 mb-16 px-4">
@@ -372,7 +372,7 @@ export default function Page() {
                                     ].map((skill) => (
                                         <span
                                             key={skill}
-                                            className="px-4 py-2 bg-white/20 rounded-full"
+                                            className={`px-4 py-2 ${theme == 'dark' ? 'bg-white/20' : 'bg-white/80'} rounded-full`}
                                         >
                                             {skill}
                                         </span>
