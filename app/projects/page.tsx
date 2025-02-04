@@ -40,7 +40,7 @@ export default function ProjectsPage() {
             date: 'April 2022 - August 2022',
             description:
                 'My university final year project. An app that allows university students and staff to track the real-time location of buses.',
-        }
+        },
     ];
 
     return (

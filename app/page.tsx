@@ -263,10 +263,11 @@ export default function Page() {
                         <nav className="flex flex-wrap justify-center items-center gap-4 sm:gap-8 mb-16 px-4">
                             <button
                                 onClick={toggleTheme}
-                                className={`p-3 rounded-full transition-all duration-300 ${theme === 'dark'
-                                    ? 'bg-white/10 hover:bg-white/20'
-                                    : 'bg-gray-200 hover:bg-gray-300'
-                                    }`}
+                                className={`p-3 rounded-full transition-all duration-300 ${
+                                    theme === 'dark'
+                                        ? 'bg-white/10 hover:bg-white/20'
+                                        : 'bg-gray-200 hover:bg-gray-300'
+                                }`}
                                 aria-label="Toggle theme"
                             >
                                 {theme === 'dark' ? '🌙' : '☀️'}
@@ -288,10 +289,11 @@ export default function Page() {
                                             });
                                         }
                                     }}
-                                    className={`px-4 sm:px-6 py-2 rounded-full text-base sm:text-lg transition-all duration-300 ${activeTab === item.id
-                                        ? 'bg-white text-yellow-900 shadow-lg transform -translate-y-1'
-                                        : `${theme == 'dark' ? 'text-white' : 'text-gray-600'} hover:bg-white/10`
-                                        }`}
+                                    className={`px-4 sm:px-6 py-2 rounded-full text-base sm:text-lg transition-all duration-300 ${
+                                        activeTab === item.id
+                                            ? 'bg-white text-yellow-900 shadow-lg transform -translate-y-1'
+                                            : `${theme == 'dark' ? 'text-white' : 'text-gray-600'} hover:bg-white/10`
+                                    }`}
                                 >
                                     {item.label}
                                 </button>
@@ -348,8 +350,7 @@ export default function Page() {
 
                             <div
                                 id="experience"
-                                className={`backdrop-blur-lg rounded-3xl p-8 hover:transform hover:scale-105 transition-all duration-300 ${theme === 'dark' ? 'bg-white/10' : 'bg-white/60'
-                                    } col-span-2`}
+                                className={`backdrop-blur-lg rounded-3xl p-8 hover:transform hover:scale-105 transition-all duration-300 ${theme === 'dark' ? 'bg-white/10' : 'bg-white/60'} col-span-2`}
                             >
                                 <h2 className="text-2xl font-bold mb-6">Experience</h2>
                                 <div className="space-y-8">
@@ -464,8 +465,8 @@ export default function Page() {
                                             }
                                         >
                                             Managed the content of the website and worked on
-                                            creating an android app for the company&apos;s website, that
-                                            utilized the WordPress API.
+                                            creating an android app for the company&apos;s website,
+                                            that utilized the WordPress API.
                                         </p>
                                     </div>
                                 </div>
@@ -514,8 +515,6 @@ export default function Page() {
                                     </a>
                                 </div>
                             </div>
-
-
                         </div>
 
                         <footer
