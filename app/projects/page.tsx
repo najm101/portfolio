@@ -53,16 +53,23 @@ export default function ProjectsPage() {
                     ? 'bg-gradient-to-br from-yellow-900 via-amber-800 to-yellow-700 text-white'
                     : 'bg-gradient-to-br from-yellow-50 via-amber-100 to-yellow-100 text-gray-900'
             } p-8`}
+            data-oid="-nm6s0u"
         >
-            <div className="max-w-6xl mx-auto">
-                <header className="text-center mb-12">
-                    <h1 className="text-4xl font-bold mb-4">My Projects</h1>
-                    <Link href="/" className="text-yellow-500 hover:text-yellow-400">
+            <div className="max-w-6xl mx-auto" data-oid="ng:k-6.">
+                <header className="text-center mb-12" data-oid=".2r3rcl">
+                    <h1 className="text-4xl font-bold mb-4" data-oid="aacmotm">
+                        My Projects
+                    </h1>
+                    <Link
+                        href="/"
+                        className="text-yellow-500 hover:text-yellow-400"
+                        data-oid="cb1:evw"
+                    >
                         ← Back to Home
                     </Link>
                 </header>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8" data-oid="uoq1dr3">
                     {projects.map((project, index) => (
                         <motion.div
                             key={project.name}
@@ -72,10 +79,18 @@ export default function ProjectsPage() {
                             className={`backdrop-blur-lg rounded-3xl p-8 hover:transform hover:scale-105 transition-all duration-300 ${
                                 theme === 'dark' ? 'bg-white/10' : 'bg-white/60'
                             }`}
+                            data-oid="2ovnhn2"
                         >
-                            <h2 className="text-2xl font-bold mb-2">{project.name}</h2>
-                            <p className="text-gray-400 mb-4">{project.date}</p>
-                            <p className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>
+                            <h2 className="text-2xl font-bold mb-2" data-oid="cu2zo4l">
+                                {project.name}
+                            </h2>
+                            <p className="text-gray-400 mb-4" data-oid="ho4n9a6">
+                                {project.date}
+                            </p>
+                            <p
+                                className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}
+                                data-oid="fi9-22j"
+                            >
                                 {project.description}
                             </p>
                             {project.url && (
@@ -84,6 +99,7 @@ export default function ProjectsPage() {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="inline-block mt-4 px-6 py-2 bg-gradient-to-r from-yellow-500 to-amber-500 rounded-lg font-semibold hover:opacity-90 transition-opacity"
+                                    data-oid="sf2oayq"
                                 >
                                     {project.url.label}
                                 </a>
