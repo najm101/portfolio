@@ -464,7 +464,7 @@ export default function Page() {
                                             }
                                         >
                                             Managed the content of the website and worked on
-                                            creating an android app for the company's website, that
+                                            creating an android app for the company&apos;s website, that
                                             utilized the WordPress API.
                                         </p>
                                     </div>
