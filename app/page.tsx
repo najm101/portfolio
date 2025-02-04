@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import natgasScreenshots from '../public/static/natgas_screenshots.png';
 import avatar from '../public/static/avatar.png';
+import { image } from 'framer-motion/client';
 
 export default function Page() {
     const [activeTab, setActiveTab] = useState('about');
@@ -15,6 +16,7 @@ export default function Page() {
         {
             name: 'Roze Moon',
             date: 'July 2024 - Present',
+            image: null,
             description:
                 'Roze Moon makes it easy to order fresh flowers with beautiful bouquets, bulk orders, and quick delivery. Browse a variety of designs and enjoy hassle-free gifting for any occasion',
             details: [
@@ -37,6 +39,7 @@ export default function Page() {
         {
             name: 'NATGAS',
             date: 'December 2023 - January 2024',
+            image: natgasScreenshots,
             description:
                 'Developed an unofficial iOS NATGAS app using Flutter to provide NATGAS customers with a seamless experience for managing gas services.',
             url: {
@@ -47,6 +50,7 @@ export default function Page() {
         {
             name: 'SteamDeck: Game Compatibility',
             date: 'Oct 2022 - Present',
+            image: null,
             description:
                 'An app for Steam Deck console gamers that provides compatibility details for thousands of Steam games.',
             url: {
@@ -57,18 +61,9 @@ export default function Page() {
         {
             name: 'University Bus Tracker | FYP',
             date: 'April 2022 - August 2022',
+            image: null,
             description:
                 'My university final year project. An app that allows university students and staff to track the real-time location of buses.',
-        },
-        {
-            name: 'PDF Compressor Utl.',
-            date: 'Sep 2022 - October 2022',
-            description:
-                'An offline windows app that compresses batches of PDF files without an internet connection.',
-            url: {
-                label: 'Microsoft Store',
-                href: 'https://apps.microsoft.com/detail/9mtnsz61cjgs?hl=en-US&gl=US',
-            },
         },
     ];
 
@@ -117,70 +112,76 @@ export default function Page() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.1 }}
-                            className={`backdrop-blur-lg rounded-3xl p-8 hover:transform hover:scale-105 transition-all duration-300 ${theme === 'dark' ? 'bg-white/10' : 'bg-white/60'
+                            className={`backdrop-blur-lg rounded-3xl p-8 hover:transform hover:scale-105 transition-all duration-300 grid ${theme === 'dark' ? 'bg-white/10' : 'bg-white/60'
                                 }`}
                         >
-                            <h2 className="text-2xl font-bold mb-2">{project.name}</h2>
-                            <p className="text-gray-400 mb-4">{project.date}</p>
-                            <p className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>
-                                {project.description}
-                            </p>
+                            <div>
+                                <h2 className="text-2xl font-bold mb-2">{project.name}</h2>
+                                <p className="text-gray-400 mb-4">{project.date}</p>
+                                {project.image != null ? <Image src={project.image!} alt={project.name} className="rounded-xl pt-1 mb-2" /> : null}
+                                <p className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>
+                                    {project.description}
+                                </p>
+                            </div>
 
-                            {project.details && (
-                                <ul className="mt-4 space-y-2 list-disc list-inside">
-                                    {project.details.map((detail, index) => (
-                                        <li
-                                            key={index}
-                                            className={
-                                                theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
-                                            }
+
+                            <div className="mt-4 flex flex-wrap items-end gap-3 ">
+                                {project.details && (
+                                    <ul className="mt-4 space-y-2 list-disc list-inside">
+                                        {project.details.map((detail, index) => (
+                                            <li
+                                                key={index}
+                                                className={
+                                                    theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+                                                }
+                                            >
+                                                {detail}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                                <div className="mt-4 flex flex-wrap items-end gap-3 ">
+                                    {project.links?.website && (
+                                        <a
+                                            href={project.links.website}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-yellow-500 to-amber-500 rounded-lg font-semibold hover:opacity-90 transition-opacity"
                                         >
-                                            {detail}
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
-                            <div className="mt-4 flex flex-wrap gap-3">
-                                {project.links?.website && (
-                                    <a
-                                        href={project.links.website}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-yellow-500 to-amber-500 rounded-lg font-semibold hover:opacity-90 transition-opacity"
-                                    >
-                                        <span>Website</span>
-                                    </a>
-                                )}
-                                {project.links?.appStore && (
-                                    <a
-                                        href={project.links.appStore}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg font-semibold hover:opacity-90 transition-opacity"
-                                    >
-                                        <span>App Store</span>
-                                    </a>
-                                )}
-                                {project.links?.playStore && (
-                                    <a
-                                        href={project.links.playStore}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 rounded-lg font-semibold hover:opacity-90 transition-opacity"
-                                    >
-                                        <span>Play Store</span>
-                                    </a>
-                                )}
-                                {project.url && (
-                                    <a
-                                        href={project.url.href}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-yellow-500 to-amber-500 rounded-lg font-semibold hover:opacity-90 transition-opacity"
-                                    >
-                                        {project.url.label}
-                                    </a>
-                                )}
+                                            <span>Website</span>
+                                        </a>
+                                    )}
+                                    {project.links?.appStore && (
+                                        <a
+                                            href={project.links.appStore}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg font-semibold hover:opacity-90 transition-opacity"
+                                        >
+                                            <span>App Store</span>
+                                        </a>
+                                    )}
+                                    {project.links?.playStore && (
+                                        <a
+                                            href={project.links.playStore}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 rounded-lg font-semibold hover:opacity-90 transition-opacity"
+                                        >
+                                            <span>Play Store</span>
+                                        </a>
+                                    )}
+                                    {project.url && (
+                                        <a
+                                            href={project.url.href}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-yellow-500 to-amber-500 rounded-lg font-semibold hover:opacity-90 transition-opacity"
+                                        >
+                                            {project.url.label}
+                                        </a>
+                                    )}
+                                </div>
                             </div>
                         </motion.div>
                     ))}

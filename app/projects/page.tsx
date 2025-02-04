@@ -40,17 +40,7 @@ export default function ProjectsPage() {
             date: 'April 2022 - August 2022',
             description:
                 'My university final year project. An app that allows university students and staff to track the real-time location of buses.',
-        },
-        {
-            name: 'PDF Compressor Utl.',
-            date: 'Sep 2022 - October 2022',
-            description:
-                'An offline windows app that compresses batches of PDF files without an internet connection.',
-            url: {
-                label: 'Microsoft Store',
-                href: 'https://apps.microsoft.com/detail/9mtnsz61cjgs?hl=en-US&gl=US',
-            },
-        },
+        }
     ];
 
     return (
