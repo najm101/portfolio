@@ -112,18 +112,22 @@ export default function Page() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.1 }}
-                            className={`backdrop-blur-lg rounded-3xl p-8 hover:transform hover:scale-105 transition-all duration-300 grid ${theme === 'dark' ? 'bg-white/10' : 'bg-white/60'
-                                }`}
+                            className={`backdrop-blur-lg rounded-3xl p-8 hover:transform hover:scale-105 transition-all duration-300 grid ${theme === 'dark' ? 'bg-white/10' : 'bg-white/60'}`}
                         >
                             <div>
                                 <h2 className="text-2xl font-bold mb-2">{project.name}</h2>
                                 <p className="text-gray-400 mb-4">{project.date}</p>
-                                {project.image != null ? <Image src={project.image!} alt={project.name} className="rounded-xl pt-1 mb-2" /> : null}
+                                {project.image != null ? (
+                                    <Image
+                                        src={project.image!}
+                                        alt={project.name}
+                                        className="rounded-xl pt-1 mb-2"
+                                    />
+                                ) : null}
                                 <p className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>
                                     {project.description}
                                 </p>
                             </div>
-
 
                             <div className="mt-4 flex flex-wrap items-end gap-3 ">
                                 {project.details && (
@@ -132,7 +136,9 @@ export default function Page() {
                                             <li
                                                 key={index}
                                                 className={
-                                                    theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+                                                    theme === 'dark'
+                                                        ? 'text-gray-300'
+                                                        : 'text-gray-600'
                                                 }
                                             >
                                                 {detail}
@@ -206,7 +212,6 @@ export default function Page() {
                 >
                     <div className="max-w-6xl mx-auto">
                         <div className="flex flex-col items-center mb-20 pt-20 relative">
-
                             <div className="relative">
                                 <div className="w-40 h-40 rounded-full bg-gradient-to-r from-yellow-500 to-amber-500 animate-pulse absolute -z-10 blur-xl"></div>
                                 <Image
@@ -238,11 +243,21 @@ export default function Page() {
                             <h1 className="text-4xl md:text-6xl font-bold mt-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-yellow-500 to-amber-500">
                                 Abdelrahman Negm
                             </h1>
-                            <p className={`text-xl mt-4 ${theme == `dark` ? `text-gray-300` : `text-gray-600`}`}>Flutter Developer</p>
+                            <p
+                                className={`text-xl mt-4 ${theme == `dark` ? `text-gray-300` : `text-gray-600`}`}
+                            >
+                                Flutter Developer
+                            </p>
                             <div className="flex flex-col items-center mt-4 space-y-2">
-                                <p className={theme == 'dark' ? 'text-gray-300' : 'text-gray-600'}>📧 bodinegem@gmail.com</p>
-                                <p className={theme == 'dark' ? 'text-gray-300' : 'text-gray-600'}>📱 +20 102 3741643</p>
-                                <p className={theme == 'dark' ? 'text-gray-300' : 'text-gray-600'}>📍 6th of October, Egypt</p>
+                                <p className={theme == 'dark' ? 'text-gray-300' : 'text-gray-600'}>
+                                    📧 bodinegem@gmail.com
+                                </p>
+                                <p className={theme == 'dark' ? 'text-gray-300' : 'text-gray-600'}>
+                                    📱 +20 102 3741643
+                                </p>
+                                <p className={theme == 'dark' ? 'text-gray-300' : 'text-gray-600'}>
+                                    📍 6th of October, Egypt
+                                </p>
                             </div>
                         </div>
                         <nav className="flex flex-wrap justify-center items-center gap-4 sm:gap-8 mb-16 px-4">
@@ -275,7 +290,7 @@ export default function Page() {
                                     }}
                                     className={`px-4 sm:px-6 py-2 rounded-full text-base sm:text-lg transition-all duration-300 ${activeTab === item.id
                                         ? 'bg-white text-yellow-900 shadow-lg transform -translate-y-1'
-                                        : `${theme == 'dark' ? "text-white" : 'text-gray-600'} hover:bg-white/10`
+                                        : `${theme == 'dark' ? 'text-white' : 'text-gray-600'} hover:bg-white/10`
                                         }`}
                                 >
                                     {item.label}
@@ -286,8 +301,7 @@ export default function Page() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div
                                 id="about"
-                                className={`backdrop-blur-lg rounded-3xl p-8 hover:transform hover:scale-105 transition-all duration-300 ${theme === 'dark' ? 'bg-white/10' : 'bg-white/60'
-                                    }`}
+                                className={`backdrop-blur-lg rounded-3xl p-8 hover:transform hover:scale-105 transition-all duration-300 ${theme === 'dark' ? 'bg-white/10' : 'bg-white/60'}`}
                             >
                                 <h2 className="text-2xl font-bold mb-4">About Me</h2>
                                 <p className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>
@@ -300,60 +314,9 @@ export default function Page() {
                                     deliver quality applications.
                                 </p>
                             </div>
-
-                            <div
-                                id="projects"
-                                className={`backdrop-blur-lg rounded-3xl p-8 hover:transform hover:scale-105 transition-all duration-300 ${theme === 'dark' ? 'bg-white/10' : 'bg-white/60'
-                                    }`}
-                            >
-                                <h2 className="text-2xl font-bold mb-4">Latest Project</h2>
-                                <div className="mb-4"
-                                >
-                                    <Image
-                                        sizes="100vw"
-                                        // Make the image display full width
-                                        style={{
-                                            width: '100%',
-                                            height: 'auto',
-                                        }}
-                                        src={natgasScreenshots}
-                                        alt="Roze Moon"
-                                        className="object-cover rounded-xl"
-
-                                    />
-                                </div>
-                                <h3 className="text-xl font-semibold">NATGAS iOS App</h3>
-                                <p className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>
-                                    An unofficial iOS NATGAS app using Flutter, providing a seamless
-                                    experience for managing gas services.
-                                </p>
-                                <div className="mt-4 flex flex-col sm:flex-row gap-4 sm:justify-between sm:items-center">
-                                    <a
-                                        href="https://testflight.apple.com/join/6YQ4wEgF"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="px-6 py-2 bg-gradient-to-r from-yellow-500 to-amber-500 rounded-lg font-semibold hover:opacity-90 transition-opacity text-center"
-                                    >
-                                        Try on TestFlight
-                                    </a>
-                                    <a
-                                        onClick={() => {
-                                            setView('projects')
-                                            window.scrollTo(0, 0)
-                                        }
-
-                                        }
-                                        className="text-yellow-500 hover:text-yellow-400 flex items-center justify-center gap-2 cursor-pointer"
-                                    >
-                                        More Projects →
-                                    </a>
-                                </div>
-                            </div>
-
                             <div
                                 id="skills"
-                                className={`backdrop-blur-lg rounded-3xl p-8 hover:transform hover:scale-105 transition-all duration-300 ${theme === 'dark' ? 'bg-white/10' : 'bg-white/60'
-                                    }`}
+                                className={`backdrop-blur-lg rounded-3xl p-8 hover:transform hover:scale-105 transition-all duration-300 ${theme === 'dark' ? 'bg-white/10' : 'bg-white/60'}`}
                             >
                                 <h2 className="text-2xl font-bold mb-4">Skills</h2>
                                 <div className="flex flex-wrap gap-2">
@@ -380,6 +343,175 @@ export default function Page() {
                                             {skill}
                                         </span>
                                     ))}
+                                </div>
+                            </div>
+
+                            <div
+                                id="experience"
+                                className={`backdrop-blur-lg rounded-3xl p-8 hover:transform hover:scale-105 transition-all duration-300 ${theme === 'dark' ? 'bg-white/10' : 'bg-white/60'
+                                    } col-span-2`}
+                            >
+                                <h2 className="text-2xl font-bold mb-6">Experience</h2>
+                                <div className="space-y-8">
+                                    <div>
+                                        <div className="flex justify-between items-start mb-2">
+                                            <div>
+                                                <h3 className="text-xl font-semibold">
+                                                    Lead Junior Flutter Developer
+                                                </h3>
+                                                <p className="text-yellow-500">Tuwaiq</p>
+                                            </div>
+                                            <div className="text-right">
+                                                <p
+                                                    className={
+                                                        theme === 'dark'
+                                                            ? 'text-gray-300'
+                                                            : 'text-gray-600'
+                                                    }
+                                                >
+                                                    April 2024 - Present
+                                                </p>
+                                                <p className="text-sm text-gray-400">
+                                                    Al Sheikh Zayed, Egypt
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <ul
+                                            className={`list-disc list-inside space-y-2 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}
+                                        >
+                                            <li>Developed an e-commerce app using Flutter</li>
+                                            <li>Improved UI/UX through user behaviour analysis</li>
+                                            <li>
+                                                Created a CI/CD pipeline to streamline deployment
+                                                processes
+                                            </li>
+                                            <li>
+                                                Trained fellow developers on Git and CI/CD practices
+                                            </li>
+                                            <li>
+                                                Implemented project tracking software in the
+                                                development cycle
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div>
+                                        <div className="flex justify-between items-start mb-2">
+                                            <div>
+                                                <h3 className="text-xl font-semibold">
+                                                    Intern Flutter Developer
+                                                </h3>
+                                                <p className="text-yellow-500">
+                                                    Vimigo Technologies
+                                                </p>
+                                            </div>
+                                            <div className="text-right">
+                                                <p
+                                                    className={
+                                                        theme === 'dark'
+                                                            ? 'text-gray-300'
+                                                            : 'text-gray-600'
+                                                    }
+                                                >
+                                                    July 2023 - October 2023
+                                                </p>
+                                                <p className="text-sm text-gray-400">
+                                                    Kuala Lumpur, Malaysia
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <p
+                                            className={
+                                                theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+                                            }
+                                        >
+                                            Enhanced the mobile app with new features using Flutter
+                                            and collaborated with the back-end team for
+                                            implementation. Collaborated with the back-end team to
+                                            design user-friendly interfaces. Analyzed user behavior
+                                            for data-driven app improvements and collaborated with
+                                            the development team for optimizations using Git and
+                                            Source-tree.
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <div className="flex justify-between items-start mb-2">
+                                            <div>
+                                                <h3 className="text-xl font-semibold">
+                                                    Intern Flutter Developer
+                                                </h3>
+                                                <p className="text-yellow-500">Pioneer4ss</p>
+                                            </div>
+                                            <div className="text-right">
+                                                <p
+                                                    className={
+                                                        theme === 'dark'
+                                                            ? 'text-gray-300'
+                                                            : 'text-gray-600'
+                                                    }
+                                                >
+                                                    November 2021 - January 2022
+                                                </p>
+                                                <p className="text-sm text-gray-400">
+                                                    Cyberjaya, Malaysia
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <p
+                                            className={
+                                                theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+                                            }
+                                        >
+                                            Managed the content of the website and worked on
+                                            creating an android app for the company's website, that
+                                            utilized the WordPress API.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div
+                                id="projects"
+                                className={`backdrop-blur-lg rounded-3xl p-8 hover:transform hover:scale-105 transition-all duration-300 ${theme === 'dark' ? 'bg-white/10' : 'bg-white/60'}`}
+                            >
+                                <h2 className="text-2xl font-bold mb-4">Latest Project</h2>
+                                <div className="mb-4">
+                                    <Image
+                                        sizes="100vw"
+                                        // Make the image display full width
+                                        style={{
+                                            width: '100%',
+                                            height: 'auto',
+                                        }}
+                                        src={natgasScreenshots}
+                                        alt="Roze Moon"
+                                        className="object-cover rounded-xl"
+                                    />
+                                </div>
+                                <h3 className="text-xl font-semibold">NATGAS iOS App</h3>
+                                <p className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>
+                                    An unofficial iOS NATGAS app using Flutter, providing a seamless
+                                    experience for managing gas services.
+                                </p>
+                                <div className="mt-4 flex flex-col sm:flex-row gap-4 sm:justify-between sm:items-center">
+                                    <a
+                                        href="https://testflight.apple.com/join/6YQ4wEgF"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="px-6 py-2 bg-gradient-to-r from-yellow-500 to-amber-500 rounded-lg font-semibold hover:opacity-90 transition-opacity text-center"
+                                    >
+                                        Try on TestFlight
+                                    </a>
+                                    <a
+                                        onClick={() => {
+                                            setView('projects');
+                                            window.scrollTo(0, 0);
+                                        }}
+                                        className="text-yellow-500 hover:text-yellow-400 flex items-center justify-center gap-2 cursor-pointer"
+                                    >
+                                        More Projects →
+                                    </a>
                                 </div>
                             </div>
 
