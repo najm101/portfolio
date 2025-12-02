@@ -27,7 +27,8 @@ import {
   Image,
   Video,
   ArrowUp,
-  ArrowDown
+  ArrowDown,
+  Cpu
 } from 'lucide-react';
 
 export const Icons = {
@@ -58,7 +59,8 @@ export const Icons = {
   Image: Image,
   Video: Video,
   ArrowUp: ArrowUp,
-  ArrowDown: ArrowDown
+  ArrowDown: ArrowDown,
+  Cpu: Cpu
 };
 
 export const SocialIcon = ({ network, className }: { network: string, className?: string }) => {

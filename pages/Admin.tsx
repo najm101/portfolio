@@ -22,11 +22,11 @@ export const AdminPage = () => {
   const { logout } = useAuth();
   const { data, updateData } = useResume();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<'basics' | 'projects' | 'experience'>('basics');
+  const [activeTab, setActiveTab] = useState<'basics' | 'projects' | 'experience' | 'skills'>('basics');
   
   // Drawer States
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [editingItemType, setEditingItemType] = useState<'project' | 'experience' | null>(null);
+  const [editingItemType, setEditingItemType] = useState<'project' | 'experience' | 'skill' | null>(null);
   const [editingItemIndex, setEditingItemIndex] = useState<number>(-1);
   const [tempItemData, setTempItemData] = useState<any>(null);
 
@@ -46,6 +46,44 @@ export const AdminPage = () => {
       ...prev,
       basics: { ...prev.basics, [field]: value }
     }));
+  };
+  
+  const handleNestedBasicsChange = (parent: 'picture' | 'url', field: 'url' | 'href', value: string) => {
+     setFormData(prev => ({
+        ...prev,
+        basics: { 
+           ...prev.basics, 
+           [parent]: { ...prev.basics[parent], [field]: value }
+        }
+     }));
+  };
+
+  const handleWhatsappChange = (value: string) => {
+     const newProfiles = [...formData.sections.profiles.items];
+     const index = newProfiles.findIndex(p => p.network.toLowerCase() === 'whatsapp' || p.icon === 'whatsapp');
+     
+     if (index !== -1) {
+        newProfiles[index] = { ...newProfiles[index], url: { ...newProfiles[index].url, href: value } };
+     } else {
+        // Create if not exists
+        newProfiles.push({
+           id: `wa-${Date.now()}`,
+           network: 'Whatsapp',
+           username: 'Whatsapp Me',
+           icon: 'whatsapp',
+           url: { label: '', href: value }
+        });
+     }
+
+     setFormData(prev => ({
+        ...prev,
+        sections: { ...prev.sections, profiles: { ...prev.sections.profiles, items: newProfiles } }
+     }));
+  };
+
+  const getWhatsappLink = () => {
+     const profile = formData.sections.profiles.items.find(p => p.network.toLowerCase() === 'whatsapp' || p.icon === 'whatsapp');
+     return profile?.url.href || '';
   };
 
   // --- List Reordering ---
@@ -75,9 +113,19 @@ export const AdminPage = () => {
     }));
   };
 
+  const handleSkillsReorder = (newItems: any[]) => {
+    setFormData(prev => ({
+      ...prev,
+      sections: {
+         ...prev.sections,
+         skills: { ...prev.sections.skills, items: newItems }
+      }
+    }));
+  };
+
   // --- Drawer / Editing Logic ---
 
-  const openEditDrawer = (type: 'project' | 'experience', index: number) => {
+  const openEditDrawer = (type: 'project' | 'experience' | 'skill', index: number) => {
     setEditingItemType(type);
     setEditingItemIndex(index);
     
@@ -98,7 +146,7 @@ export const AdminPage = () => {
        } else {
          setTempItemData({ ...formData.sections.custom.g0ihgz4xbbuascfreru6bqj9.items[index] });
        }
-    } else {
+    } else if (type === 'experience') {
        if (index === -1) {
          // New Job Template
          setTempItemData({
@@ -112,6 +160,17 @@ export const AdminPage = () => {
          });
        } else {
          setTempItemData({ ...formData.sections.experience.items[index] });
+       }
+    } else if (type === 'skill') {
+       if (index === -1) {
+          // New Skill Template
+          setTempItemData({
+             id: `skill-${Date.now()}`,
+             name: 'New Skill Category',
+             keywords: []
+          });
+       } else {
+          setTempItemData({ ...formData.sections.skills.items[index] });
        }
     }
     setIsDrawerOpen(true);
@@ -152,11 +211,25 @@ export const AdminPage = () => {
              experience: { ...prev.sections.experience, items: newJobs }
           }
        }));
+    } else if (editingItemType === 'skill') {
+       const newSkills = [...formData.sections.skills.items];
+       if (editingItemIndex === -1) {
+          newSkills.push(tempItemData);
+       } else {
+          newSkills[editingItemIndex] = tempItemData;
+       }
+       setFormData(prev => ({
+          ...prev,
+          sections: {
+             ...prev.sections,
+             skills: { ...prev.sections.skills, items: newSkills }
+          }
+       }));
     }
     setIsDrawerOpen(false);
   };
 
-  const handleDeleteItem = (e: React.MouseEvent, type: 'project' | 'experience', index: number) => {
+  const handleDeleteItem = (e: React.MouseEvent, type: 'project' | 'experience' | 'skill', index: number) => {
      e.stopPropagation();
      if (!window.confirm("Are you sure you want to delete this item?")) return;
 
@@ -164,10 +237,14 @@ export const AdminPage = () => {
         const newProjects = [...formData.sections.custom.g0ihgz4xbbuascfreru6bqj9.items];
         newProjects.splice(index, 1);
         handleProjectReorder(newProjects);
-     } else {
+     } else if (type === 'experience') {
         const newJobs = [...formData.sections.experience.items];
         newJobs.splice(index, 1);
         handleExperienceReorder(newJobs);
+     } else if (type === 'skill') {
+        const newSkills = [...formData.sections.skills.items];
+        newSkills.splice(index, 1);
+        handleSkillsReorder(newSkills);
      }
   };
 
@@ -201,6 +278,7 @@ export const AdminPage = () => {
            <TabButton id="basics" label="Profile" icon={Icons.User} />
            <TabButton id="projects" label="Projects" icon={Icons.Folder} />
            <TabButton id="experience" label="Experience" icon={Icons.Briefcase} />
+           <TabButton id="skills" label="Skills" icon={Icons.Cpu} />
         </nav>
 
         <div className="p-4 border-t border-border/40">
@@ -274,6 +352,50 @@ export const AdminPage = () => {
                                     value={formData.basics.location} 
                                     onChange={(e) => handleBasicsChange('location', e.target.value)} 
                                   />
+                               </div>
+                            </div>
+                         </CardContent>
+                      </Card>
+
+                       <Card className="md:col-span-2">
+                         <CardHeader>
+                            <CardTitle>Links & Assets</CardTitle>
+                         </CardHeader>
+                         <CardContent className="space-y-4">
+                            <div className="grid grid-cols-1 gap-4">
+                               <div className="space-y-2">
+                                  <Label>Primary Image URL</Label>
+                                  <div className="flex gap-4">
+                                     <div className="flex-1">
+                                        <Input 
+                                          value={formData.basics.picture.url} 
+                                          onChange={(e) => handleNestedBasicsChange('picture', 'url', e.target.value)} 
+                                          placeholder="https://..."
+                                        />
+                                     </div>
+                                     {formData.basics.picture.url && (
+                                       <div className="w-10 h-10 rounded-full overflow-hidden shrink-0 border border-border">
+                                          <img src={formData.basics.picture.url} alt="Preview" className="w-full h-full object-cover" />
+                                       </div>
+                                     )}
+                                  </div>
+                               </div>
+                               <div className="space-y-2">
+                                  <Label>CV PDF Link</Label>
+                                  <Input 
+                                    value={formData.basics.url.href} 
+                                    onChange={(e) => handleNestedBasicsChange('url', 'href', e.target.value)}
+                                    placeholder="https://..."
+                                  />
+                               </div>
+                               <div className="space-y-2">
+                                  <Label>WhatsApp Link/Number</Label>
+                                  <Input 
+                                    value={getWhatsappLink()} 
+                                    onChange={(e) => handleWhatsappChange(e.target.value)}
+                                    placeholder="https://wa.me/..."
+                                  />
+                                  <p className="text-xs text-muted-foreground">Example: https://wa.me/201023741643</p>
                                </div>
                             </div>
                          </CardContent>
@@ -398,6 +520,53 @@ export const AdminPage = () => {
                  </div>
               )}
 
+              {/* SKILLS TAB */}
+              {activeTab === 'skills' && (
+                 <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    <div className="flex justify-between items-center bg-card p-4 rounded-lg border border-border">
+                       <div>
+                          <h3 className="text-lg font-bold">Skills & Services</h3>
+                          <p className="text-xs text-muted-foreground">Drag to reorder • Click to edit</p>
+                       </div>
+                       <Button size="sm" onClick={() => openEditDrawer('skill', -1)}>
+                          <Icons.Plus className="w-4 h-4 mr-2" /> Add Skill Category
+                       </Button>
+                    </div>
+
+                    <SortableList 
+                       items={formData.sections.skills.items}
+                       onReorder={handleSkillsReorder}
+                       className="grid grid-cols-1 md:grid-cols-2 gap-4 space-y-0"
+                       renderItem={(skill, index, dragProps) => (
+                          <div 
+                             onClick={() => openEditDrawer('skill', index)}
+                             className="bg-card hover:border-neon/50 border border-border rounded-xl p-4 cursor-pointer transition-all group flex items-start gap-4"
+                          >
+                             <div {...dragProps} className="mt-1 text-muted-foreground hover:text-neon cursor-grab active:cursor-grabbing p-1" onClick={(e) => e.stopPropagation()}>
+                                <Icons.Grip className="w-5 h-5" />
+                             </div>
+                             <div className="flex-1">
+                                <h4 className="font-bold text-foreground mb-2">{skill.name}</h4>
+                                <div className="flex flex-wrap gap-1">
+                                   {skill.keywords.map((k: string) => (
+                                      <span key={k} className="text-[10px] bg-secondary px-2 py-0.5 rounded text-muted-foreground">{k}</span>
+                                   ))}
+                                </div>
+                             </div>
+                             <Button 
+                                variant="ghost" 
+                                size="icon" 
+                                className="h-8 w-8 text-muted-foreground hover:text-red-500 hover:bg-red-500/10 shrink-0"
+                                onClick={(e) => handleDeleteItem(e, 'skill', index)}
+                             >
+                                <Icons.Trash className="w-4 h-4" />
+                             </Button>
+                          </div>
+                       )}
+                    />
+                 </div>
+              )}
+
            </div>
         </div>
 
@@ -405,7 +574,11 @@ export const AdminPage = () => {
         <Drawer 
            isOpen={isDrawerOpen} 
            onClose={() => setIsDrawerOpen(false)}
-           title={editingItemType === 'project' ? (editingItemIndex === -1 ? 'Add Project' : 'Edit Project') : (editingItemIndex === -1 ? 'Add Job' : 'Edit Job')}
+           title={
+              editingItemType === 'project' ? (editingItemIndex === -1 ? 'Add Project' : 'Edit Project') : 
+              editingItemType === 'experience' ? (editingItemIndex === -1 ? 'Add Job' : 'Edit Job') :
+              (editingItemIndex === -1 ? 'Add Skill' : 'Edit Skill')
+           }
         >
            {tempItemData && editingItemType === 'project' && (
               <div className="space-y-6">
@@ -499,6 +672,32 @@ export const AdminPage = () => {
 
                  <div className="pt-4 flex gap-3 sticky bottom-0 bg-background border-t border-border p-4 -mx-6 -mb-6 mt-6">
                     <Button className="flex-1" onClick={saveDrawerData}>Save Job</Button>
+                    <Button variant="outline" onClick={() => setIsDrawerOpen(false)}>Cancel</Button>
+                 </div>
+              </div>
+           )}
+
+           {tempItemData && editingItemType === 'skill' && (
+              <div className="space-y-6">
+                 <div className="space-y-4">
+                    <div className="space-y-2">
+                       <Label>Skill Category Name</Label>
+                       <Input value={tempItemData.name} onChange={(e) => setTempItemData({...tempItemData, name: e.target.value})} placeholder="e.g. Flutter Development" />
+                    </div>
+                    <div className="space-y-2">
+                       <Label>Keywords (Comma separated)</Label>
+                       <Textarea 
+                          className="h-32 font-mono text-sm"
+                          value={tempItemData.keywords?.join(', ') || ''} 
+                          onChange={(e) => setTempItemData({...tempItemData, keywords: e.target.value.split(',').map((s: string) => s.trim()).filter(Boolean)})} 
+                          placeholder="e.g. Bloc, Provider, Clean Architecture"
+                       />
+                       <p className="text-xs text-muted-foreground">These will be displayed as tags under the category.</p>
+                    </div>
+                 </div>
+
+                 <div className="pt-4 flex gap-3 sticky bottom-0 bg-background border-t border-border p-4 -mx-6 -mb-6 mt-6">
+                    <Button className="flex-1" onClick={saveDrawerData}>Save Skill</Button>
                     <Button variant="outline" onClick={() => setIsDrawerOpen(false)}>Cancel</Button>
                  </div>
               </div>
