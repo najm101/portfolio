@@ -30,6 +30,7 @@ export interface MediaItem {
 export interface ProjectItem {
   id: string;
   name: string;
+  role?: string; 
   description: string;
   date: string;
   summary: string;

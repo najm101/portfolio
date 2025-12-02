@@ -1,10 +1,39 @@
 import React from 'react';
-import { Github, Linkedin, Mail, MapPin, Phone, Globe, Download, Smartphone, ChevronLeft, ChevronRight, Sun, Moon } from 'lucide-react';
+import { 
+  Github, 
+  Linkedin, 
+  Mail, 
+  MapPin, 
+  Phone, 
+  Globe, 
+  Download, 
+  Smartphone, 
+  ChevronLeft, 
+  ChevronRight, 
+  Sun, 
+  Moon,
+  LayoutDashboard,
+  LogOut,
+  Edit2,
+  Trash2,
+  Plus,
+  Save,
+  X,
+  User,
+  Briefcase,
+  FolderOpen,
+  GripVertical,
+  Upload,
+  Image,
+  Video,
+  ArrowUp,
+  ArrowDown
+} from 'lucide-react';
 
 export const Icons = {
   Github: Github,
   Linkedin: Linkedin,
-  Whatsapp: Phone, // Mapping Whatsapp to Phone icon for simplicity or custom if needed
+  Whatsapp: Phone, 
   Mail: Mail,
   MapPin: MapPin,
   Globe: Globe,
@@ -13,7 +42,23 @@ export const Icons = {
   ChevronLeft: ChevronLeft,
   ChevronRight: ChevronRight,
   Sun: Sun,
-  Moon: Moon
+  Moon: Moon,
+  LayoutDashboard: LayoutDashboard,
+  LogOut: LogOut,
+  Edit: Edit2,
+  Trash: Trash2,
+  Plus: Plus,
+  Save: Save,
+  Close: X,
+  User: User,
+  Briefcase: Briefcase,
+  Folder: FolderOpen,
+  Grip: GripVertical,
+  Upload: Upload,
+  Image: Image,
+  Video: Video,
+  ArrowUp: ArrowUp,
+  ArrowDown: ArrowDown
 };
 
 export const SocialIcon = ({ network, className }: { network: string, className?: string }) => {
