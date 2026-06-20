@@ -3,7 +3,6 @@ name: Deploy portfolio to GitHub Pages
 on:
   push:
     branches:
-      - claude/portfolio-website-redesign-ac5p7d
       - main
   workflow_dispatch:
 
