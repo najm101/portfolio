@@ -1,0 +1,26 @@
+<article class="card overflow-hidden p-6 md:p-8">
+  <div class="grid gap-8 md:grid-cols-[0.85fr_1.15fr] md:items-center">
+    <div>
+      <div class="flex items-center justify-between gap-3">
+        <span class="chip">{{CATEGORY}}</span>
+        {{STATUS_PILL}}
+      </div>
+
+      <h3 class="mt-4 font-display text-2xl font-bold tracking-tight md:text-[1.75rem]">{{NAME}}</h3>
+      <p class="mt-1 text-muted">{{TAGLINE}}</p>
+      <p class="mt-1 font-mono text-xs text-muted">{{PERIOD}}</p>
+
+      <p class="mt-4 leading-relaxed text-ink/80">{{BLURB}}</p>
+      {{POINTS}}
+
+      <div class="mt-5 flex flex-wrap gap-2">{{TAGS}}</div>
+      <div class="mt-6 flex flex-wrap gap-3">{{STORES}}</div>
+    </div>
+
+    <div class="min-w-0 md:order-last">
+      <div class="gallery min-w-0 -mx-2 px-2" role="region" aria-label="{{NAME}} screenshots" tabindex="0">
+        {{GALLERY}}
+      </div>
+    </div>
+  </div>
+</article>
