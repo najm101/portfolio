@@ -218,6 +218,68 @@
     display: block;
   }
 
+  /* Tablet bezel — used for kiosk / POS screenshots (e.g. Khedma). */
+  .tablet {
+    scroll-snap-align: center;
+    flex: 0 0 auto;
+    width: 256px;
+    padding: 11px;
+    border-radius: 1.4rem;
+    background: linear-gradient(160deg, #1b1b22, #2c2c36);
+    box-shadow:
+      0 1px 1px rgba(255, 255, 255, 0.18) inset,
+      0 18px 40px -24px rgba(20, 20, 25, 0.7);
+  }
+  @media (min-width: 768px) {
+    .tablet { width: 300px; }
+  }
+  .tablet__screen {
+    position: relative;
+    border-radius: 0.7rem;
+    overflow: hidden;
+    aspect-ratio: 185 / 296;
+    background: var(--color-surface);
+  }
+  .tablet__cam {
+    position: absolute;
+    top: 7px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+    background: #2a2a33;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08);
+    z-index: 2;
+  }
+  .tablet__screen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Screenshots that already ship with a device frame — shown as-is. */
+  .shot-framed {
+    scroll-snap-align: center;
+    flex: 0 0 auto;
+    height: 360px;
+    margin: 0;
+    display: flex;
+    align-items: flex-end;
+  }
+  @media (min-width: 768px) {
+    .shot-framed { height: 412px; }
+  }
+  .shot-framed img {
+    height: 100%;
+    width: auto;
+    display: block;
+    object-fit: contain;
+    border-radius: 0.5rem;
+    filter: drop-shadow(0 16px 28px rgba(20, 20, 25, 0.18));
+  }
+
   /* Placeholder shown until a real screenshot is dropped in. */
   .shot-placeholder {
     position: absolute;

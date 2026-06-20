@@ -78,17 +78,24 @@ function storeBadge(store) {
 
 const PLACEHOLDER = `<div class="shot-placeholder"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.6"/><circle cx="8.5" cy="8.5" r="1.8" fill="currentColor"/><path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Screenshot<br>coming soon</span></div>`;
 
-async function buildGallery(project, frameTpl) {
+async function buildGallery(project, tpls) {
+  const frame = project.frame || "phone";
   const frames = project.images.map((img, i) => {
     const n = i + 1;
     const isReal = String(img).includes(".");
-    const alt = `${project.name} screenshot ${n}${isReal ? "" : " (coming soon)"}`;
+    const alt = attr(`${project.name} screenshot ${n}${isReal ? "" : " (coming soon)"}`);
     const content = isReal
       ? `<img src="./assets/img/${project.slug}/${attr(img)}" alt="${attr(
           `${project.name} screenshot ${n}`,
         )}" loading="lazy" decoding="async" />`
       : PLACEHOLDER;
-    return fill(frameTpl, { ALT: attr(alt), CONTENT: content });
+
+    // "framed" images already include a device frame — show them as-is.
+    if (frame === "framed") {
+      return `<figure class="shot-framed" role="group" aria-label="${alt}">${content}</figure>`;
+    }
+    // Raw captures get wrapped in our phone or tablet bezel.
+    return fill(frame === "tablet" ? tpls.tablet : tpls.phone, { ALT: alt, CONTENT: content });
   });
   return frames.join("\n");
 }
@@ -101,10 +108,13 @@ function statusPill(status) {
 
 async function buildProjects() {
   const cardTpl = await readPartial("project-card.html");
-  const frameTpl = await readPartial("device-frame.html");
+  const tpls = {
+    phone: await readPartial("device-frame.html"),
+    tablet: await readPartial("tablet-frame.html"),
+  };
   const cards = [];
   for (const p of projects) {
-    const gallery = await buildGallery(p, frameTpl);
+    const gallery = await buildGallery(p, tpls);
     const tags = p.tags.map((t) => `<span class="chip">${esc(t)}</span>`).join("");
     const stores = p.stores.map(storeBadge).join("");
     cards.push(

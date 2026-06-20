@@ -36,9 +36,7 @@ npm run serve      # serves dist/ at http://localhost:4321
 # or: npm run dev  # build + serve in one go
 ```
 
-## Adding real App Store / Play Store screenshots
-
-The galleries currently show styled placeholders. To use real screenshots:
+## Adding or changing screenshots
 
 1. Drop the image files into the matching folder, e.g.
    `src/assets/img/roze-moon/01.png`, `02.png`, …
@@ -47,12 +45,18 @@ The galleries currently show styled placeholders. To use real screenshots:
    ```js
    images: ["01.png", "02.png", "03.png", "04.png"],
    ```
-   (A bare entry like `"01"` renders a "coming soon" placeholder; an entry with a
-   file extension renders that image.)
-3. `npm run build`. The phone frames adapt to any number of screenshots — no
-   layout changes needed.
+   (A bare entry like `"01"` renders a "coming soon" placeholder instead.)
+3. Pick how each screenshot is presented with the project's `frame` field:
+   | `frame`    | Use for                                              |
+   |------------|------------------------------------------------------|
+   | `"phone"`  | Raw phone screen captures — wrapped in a phone bezel  |
+   | `"tablet"` | Raw tablet captures — wrapped in a wider tablet bezel |
+   | `"framed"` | Images that already include a device frame — shown as-is |
+4. `npm run build`. The frames adapt to any number of screenshots — no layout
+   changes needed.
 
-Tall App Store screenshots (9:19.5) fit the phone frames perfectly.
+Raw captures are object-fit cropped to the bezel, so tall phone shots (~9:19.5)
+and the kiosk tablet ratio both fit cleanly.
 
 ## Editing content
 
@@ -61,7 +65,7 @@ All copy lives in the two data files — no need to touch HTML:
 - **`src/data/site.js`** — name, contact links, summary, hero stats, experience,
   skills, achievements, education, certifications, languages.
 - **`src/data/projects.js`** — each project's name, blurb, tags, store links,
-  status (`live` / `deprecated`), and screenshot list.
+  status (`live` / `deprecated`), `frame` type, and screenshot list.
 
 ## Deploying to GitHub Pages
 
