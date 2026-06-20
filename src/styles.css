@@ -1,0 +1,267 @@
+@import "tailwindcss";
+
+/* ---- Design tokens (light "App Store" feel, made non-generic) ---- */
+@theme {
+  --color-paper: #fbfbfd;
+  --color-surface: #ffffff;
+  --color-line: #e8e8ee;
+  --color-ink: #141419;
+  --color-muted: #71717a;
+  --color-brand: #3d2ee0;
+  --color-brand-soft: #ece9ff;
+  --color-live: #10b981;
+
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+}
+
+/* ---- Base ---- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem; /* clears the sticky header on anchor jumps */
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Visible, consistent keyboard focus everywhere. */
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: var(--color-brand);
+    color: #fff;
+  }
+}
+
+/* ---- Components ---- */
+@layer components {
+  .container-x {
+    width: 100%;
+    max-width: 72rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-brand);
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    font-size: clamp(1.9rem, 6vw, 2.75rem);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    line-height: 1;
+    padding: 0.4rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid var(--color-line);
+    color: var(--color-muted);
+    background: var(--color-surface);
+    white-space: nowrap;
+  }
+
+  /* Store badge — the structural "where it's live" device. */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.6rem 0.9rem;
+    border-radius: 0.85rem;
+    border: 1px solid var(--color-line);
+    background: var(--color-surface);
+    color: var(--color-ink);
+    font-weight: 600;
+    font-size: 0.85rem;
+    line-height: 1;
+    transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .badge:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--color-brand) 45%, var(--color-line));
+    box-shadow: 0 8px 20px -12px color-mix(in srgb, var(--color-brand) 60%, transparent);
+  }
+  .badge svg {
+    width: 1.15rem;
+    height: 1.15rem;
+    flex: none;
+  }
+  .badge[aria-disabled="true"] {
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  /* Live pill. */
+  .pill-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-live);
+  }
+  .pill-live::before {
+    content: "";
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 999px;
+    background: var(--color-live);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-live) 70%, transparent);
+    animation: live-ping 2.2s ease-out infinite;
+  }
+  .pill-archived::before {
+    background: var(--color-muted);
+    animation: none;
+  }
+  .pill-archived {
+    color: var(--color-muted);
+  }
+  @keyframes live-ping {
+    0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-live) 55%, transparent); }
+    70% { box-shadow: 0 0 0 7px transparent; }
+    100% { box-shadow: 0 0 0 0 transparent; }
+  }
+
+  /* ---- Signature: swipeable phone-framed screenshot gallery ---- */
+  .gallery {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 0.25rem 0 1rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-line) transparent;
+  }
+  .gallery::-webkit-scrollbar {
+    height: 6px;
+  }
+  .gallery::-webkit-scrollbar-thumb {
+    background: var(--color-line);
+    border-radius: 999px;
+  }
+
+  .phone {
+    scroll-snap-align: center;
+    flex: 0 0 auto;
+    width: 176px;
+    padding: 9px;
+    border-radius: 2rem;
+    background: linear-gradient(160deg, #1b1b22, #2c2c36);
+    box-shadow:
+      0 1px 1px rgba(255, 255, 255, 0.18) inset,
+      0 18px 40px -24px rgba(20, 20, 25, 0.7);
+  }
+  @media (min-width: 768px) {
+    .phone { width: 200px; }
+  }
+  .phone__screen {
+    position: relative;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    aspect-ratio: 9 / 19.5;
+    background: var(--color-surface);
+  }
+  .phone__notch {
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 44px;
+    height: 12px;
+    border-radius: 999px;
+    background: #15151b;
+    z-index: 2;
+  }
+  .phone__screen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Placeholder shown until a real screenshot is dropped in. */
+  .shot-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    text-align: center;
+    padding: 1rem;
+    color: var(--color-muted);
+    background:
+      radial-gradient(120% 80% at 50% 0%, var(--color-brand-soft), transparent 60%),
+      repeating-linear-gradient(135deg, #fafafc, #fafafc 10px, #f3f3f8 10px, #f3f3f8 20px);
+  }
+  .shot-placeholder svg {
+    width: 1.75rem;
+    height: 1.75rem;
+    color: var(--color-brand);
+    opacity: 0.85;
+  }
+  .shot-placeholder span {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  .card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 1.5rem;
+  }
+
+  .link-underline {
+    background-image: linear-gradient(var(--color-brand), var(--color-brand));
+    background-size: 0% 2px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.25s ease;
+  }
+  .link-underline:hover {
+    background-size: 100% 2px;
+  }
+}
