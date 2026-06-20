@@ -221,6 +221,7 @@ async function main() {
     EMAIL: esc(site.email),
     PHONE: esc(site.phone),
     PHONE_HREF: attr(site.phoneHref),
+    WHATSAPP: attr(site.whatsapp),
     LINKEDIN: attr(site.linkedin),
     GITHUB: attr(site.github),
     RESUME_URL: attr(site.resumeUrl),

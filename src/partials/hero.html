@@ -45,34 +45,42 @@
       </dl>
     </div>
 
-    <!-- Device cluster: the apps, in hand. -->
-    <div class="relative mx-auto flex w-full max-w-sm items-end justify-center gap-4 md:max-w-none" aria-hidden="true">
-      <div class="phone hidden translate-y-4 rotate-[-6deg] opacity-90 sm:block">
-        <div class="phone__screen">
-          <span class="phone__notch"></span>
-          <div class="shot-placeholder">
-            <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.6"/><circle cx="8.5" cy="8.5" r="1.8" fill="currentColor"/><path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span>App<br>screenshot</span>
-          </div>
+    <!-- Build artifact: a Flutter widget that introduces me, not empty screenshots. -->
+    <div class="relative mx-auto w-full max-w-md px-2 pb-8 md:max-w-none md:px-0">
+      <div
+        class="code-card"
+        role="img"
+        aria-label="A Flutter widget describing Abdelrahman Negm: 6 apps shipped across iOS, Android and Web, built on Clean Architecture."
+      >
+        <div class="code-card__bar">
+          <span class="code-dot code-dot--r" aria-hidden="true"></span>
+          <span class="code-dot code-dot--y" aria-hidden="true"></span>
+          <span class="code-dot code-dot--g" aria-hidden="true"></span>
+          <span class="code-card__file">negm.dart</span>
         </div>
+        <pre class="code-card__body" aria-hidden="true"><code><span class="tok-key">class</span> <span class="tok-cls">Negm</span> <span class="tok-key">extends</span> <span class="tok-cls">Engineer</span> {
+  <span class="tok-ann">@override</span>
+  <span class="tok-cls">Widget</span> <span class="tok-fn">build</span>(<span class="tok-cls">BuildContext</span> context) {
+    <span class="tok-key">return</span> <span class="tok-cls">Shipped</span>(
+      apps: <span class="tok-num">6</span>,
+      platforms: [<span class="tok-str">'iOS'</span>, <span class="tok-str">'Android'</span>, <span class="tok-str">'Web'</span>],
+      stack: <span class="tok-cls">Clean</span>.architecture,
+      onTap: () =&gt; <span class="tok-fn">hire</span>(me),
+    );
+  }
+}</code></pre>
       </div>
-      <div class="phone z-10 scale-[1.05]">
-        <div class="phone__screen">
-          <span class="phone__notch"></span>
-          <div class="shot-placeholder">
-            <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.6"/><circle cx="8.5" cy="8.5" r="1.8" fill="currentColor"/><path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span>App<br>screenshot</span>
-          </div>
-        </div>
-      </div>
-      <div class="phone hidden translate-y-4 rotate-[6deg] opacity-90 sm:block">
-        <div class="phone__screen">
-          <span class="phone__notch"></span>
-          <div class="shot-placeholder">
-            <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.6"/><circle cx="8.5" cy="8.5" r="1.8" fill="currentColor"/><path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span>App<br>screenshot</span>
-          </div>
-        </div>
+
+      <!-- Floating proof: shipped to real stores. -->
+      <div class="float-badge" aria-hidden="true">
+        <span class="float-badge__stores">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.36 12.6c-.02-2.3 1.88-3.4 1.96-3.46-1.07-1.57-2.74-1.78-3.33-1.8-1.42-.14-2.77.83-3.49.83-.72 0-1.83-.81-3.01-.79-1.55.02-2.98.9-3.78 2.29-1.61 2.8-.41 6.93 1.16 9.2.77 1.11 1.68 2.35 2.87 2.31 1.15-.05 1.58-.74 2.97-.74 1.38 0 1.77.74 2.98.72 1.23-.02 2.01-1.13 2.76-2.25.87-1.29 1.23-2.54 1.25-2.6-.03-.01-2.39-.92-2.41-3.66zM14.1 5.66c.64-.77 1.07-1.85.95-2.92-.92.04-2.03.61-2.69 1.38-.59.68-1.11 1.78-.97 2.83 1.03.08 2.07-.52 2.71-1.29z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M4 3.2c-.3.18-.5.5-.5.92v15.76c0 .42.2.74.5.92l8.43-8.8L4 3.2z" fill="#34A853"/><path d="M16.6 8.06L13.2 6.1 4.6 2.78c-.13-.05-.24-.06-.35-.04l8.18 8.55 4.17-4.23z" fill="#EA4335"/><path d="M4.25 21.26c.1.02.22 0 .35-.04l8.6-3.32 3.4-1.96-4.17-4.23-8.18 9.55z" fill="#FBBC04"/><path d="M16.6 8.06l-4.17 4.23 4.17 4.23 3.78-2.19c.6-.35.6-1.46 0-1.81L16.6 8.06z" fill="#4285F4"/></svg>
+        </span>
+        <span class="float-badge__text">
+          <span class="float-badge__num">6+ apps</span>
+          <span class="float-badge__sub">live on stores</span>
+        </span>
       </div>
     </div>
   </div>

@@ -8,6 +8,7 @@ export const site = {
   email: "bodinegem@gmail.com",
   phone: "+20 102 3741643",
   phoneHref: "+201023741643",
+  whatsapp: "https://wa.me/201023741643?text=Hi%20Abdelrahman%2C%20I%20saw%20your%20portfolio%20and%20I'd%20like%20to%20chat.",
   linkedin: "https://linkedin.com/in/abdelrahman-negm-374b20201",
   github: "https://github.com/najm101",
   resumeUrl: "resume.md",
