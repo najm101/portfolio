@@ -50,7 +50,7 @@
       <div
         class="code-card"
         role="img"
-        aria-label="A Flutter widget describing Abdelrahman Negm: 6 apps shipped across iOS, Android and Web, built on Clean Architecture."
+        aria-label="A Flutter widget describing Abdelrahman Negm: 6+ production apps shipped for iOS and Android, with ownership from mobile through backend delivery."
       >
         <div class="code-card__bar">
           <span class="code-dot code-dot--r" aria-hidden="true"></span>
@@ -62,9 +62,10 @@
   <span class="tok-ann">@override</span>
   <span class="tok-cls">Widget</span> <span class="tok-fn">build</span>(<span class="tok-cls">BuildContext</span> context) {
     <span class="tok-key">return</span> <span class="tok-cls">Shipped</span>(
-      apps: <span class="tok-num">6</span>,
-      platforms: [<span class="tok-str">'iOS'</span>, <span class="tok-str">'Android'</span>, <span class="tok-str">'Web'</span>],
-      stack: <span class="tok-cls">Clean</span>.architecture,
+      apps: <span class="tok-str">'6+'</span>,
+      platforms: [<span class="tok-str">'iOS'</span>, <span class="tok-str">'Android'</span>],
+      web: <span class="tok-cls">React</span>.production,
+      scope: <span class="tok-cls">Mobile</span>.toBackend,
       onTap: () =&gt; <span class="tok-fn">hire</span>(me),
     );
   }

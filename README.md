@@ -13,8 +13,10 @@ src/
   data/
     site.js            You, contact, summary, experience, skills, education…
     projects.js        The project list (each becomes a card + screenshot gallery)
+    career-stories.js  Ordering and presentation metadata for career stories
   partials/            One file per UI component (hero, project-card, footer…)
   assets/img/<slug>/   Screenshots for each project
+career-stories/        Long-form Markdown stories used by the site build
 build.mjs              Stitches partials + data into dist/index.html
 ```
 
@@ -22,8 +24,9 @@ build.mjs              Stitches partials + data into dist/index.html
 
 1. **`build:css`** — Tailwind compiles `src/styles.css` → `dist/assets/styles.css`.
 2. **`build:html`** — `build.mjs` resolves the `<!-- include -->` tags, renders the
-   project/experience/skill loops from the data files, fills `{{TOKENS}}`, copies
-   `src/assets` and `resume.md`, and writes `dist/index.html`.
+   project/experience/skill loops from the data files, renders the public parts
+   of each career story, fills `{{TOKENS}}`, copies `src/assets` and `resume.md`,
+   and writes the homepage plus the pages under `dist/career-stories/`.
 
 Everything ships from `dist/` — nothing else needs to be served.
 
@@ -60,17 +63,22 @@ and the kiosk tablet ratio both fit cleanly.
 
 ## Editing content
 
-All copy lives in the two data files — no need to touch HTML:
+Portfolio copy lives in the data and story files:
 
 - **`src/data/site.js`** — name, contact links, summary, hero stats, experience,
-  skills, achievements, education, certifications, languages.
+  skills, education, certifications, and languages.
 - **`src/data/projects.js`** — each project's name, blurb, tags, store links,
   status (`live` / `deprecated`), `frame` type, and screenshot list.
+- **`career-stories/*.md`** — public long-form story content. The homepage uses
+  concise summaries, while the build omits interview-only sections such as
+  factual boundaries and suggested questions from the published pages.
+- **`src/data/career-stories.js`** — story order, URL slugs, topic labels, tags,
+  and any shorter homepage-card summary.
 
 ## Deploying to GitHub Pages
 
 A workflow at `.github/workflows/deploy.yml` builds and deploys on every push to
-the working branch (and `main`).
+`main`.
 
 **One-time setup:** in the repo, go to **Settings → Pages → Build and deployment**
 and set **Source = GitHub Actions**. After the next push, the site publishes to

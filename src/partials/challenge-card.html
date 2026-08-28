@@ -1,0 +1,23 @@
+<article class="{{GRID_CLASS}}">
+  <a
+    href="{{URL}}"
+    class="challenge-card group flex h-full flex-col rounded-3xl border border-line bg-surface p-6 transition md:p-7"
+    aria-label="Read {{TITLE}}"
+  >
+    <div class="flex items-center justify-between gap-4">
+      <p class="font-mono text-xs text-brand">{{NUMBER}}</p>
+      <p class="font-mono text-[0.68rem] uppercase tracking-[0.1em] text-muted">{{THEME}}</p>
+    </div>
+
+    <h3 class="mt-6 font-display text-2xl font-bold leading-tight tracking-tight">{{TITLE}}</h3>
+    <p class="mt-4 flex-1 text-sm leading-relaxed text-muted">{{SUMMARY}}</p>
+
+    <div class="mt-6 flex flex-wrap gap-2">{{TAGS}}</div>
+    <span class="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-brand">
+      Read the story
+      <svg viewBox="0 0 24 24" fill="none" class="h-4 w-4 transition group-hover:translate-x-1" aria-hidden="true">
+        <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </span>
+  </a>
+</article>

@@ -1,4 +1,4 @@
-<article class="card overflow-hidden p-6 md:p-8">
+<article id="project-{{SLUG}}" class="card scroll-mt-24 overflow-hidden p-6 md:p-8">
   <div class="grid gap-8 md:grid-cols-[0.85fr_1.15fr] md:items-center">
     <div>
       <div class="flex items-center justify-between gap-3">
@@ -15,6 +15,7 @@
 
       <div class="mt-5 flex flex-wrap gap-2">{{TAGS}}</div>
       <div class="mt-6 flex flex-wrap gap-3">{{STORES}}</div>
+      {{STORY_LINKS}}
     </div>
 
     <div class="min-w-0 md:order-last">

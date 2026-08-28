@@ -18,13 +18,16 @@ export const projects = [
     status: "live",
     frame: "framed",
     blurb:
-      "A polished shopping experience built on Clean Architecture and Bloc, with pixel-perfect responsive UIs from high-fidelity designs.",
+      "I joined when there was no established mobile architecture or release process, then took ownership of the product from Flutter structure through both store releases.",
     points: [
-      "Secure REST APIs with JWT auth; caching and lazy loading for performance.",
-      "Payfort payment gateway and Firebase Cloud Messaging push notifications.",
-      "Led repo management with enforced commit standards and reviews.",
+      "Used Clean Architecture with Bloc and built responsive interfaces from high-fidelity designs.",
+      "Integrated JWT APIs, Payfort payments, caching, lazy loading, and Firebase notifications.",
+      "Added repository standards, code reviews, and CI/CD. The app launched with no critical post-launch incidents.",
     ],
     tags: ["Flutter", "Bloc", "Clean Architecture", "JWT", "Payfort", "FCM"],
+    stories: [
+      { label: "Read the Roze Moon delivery story", slug: "roze-moon-end-to-end-delivery" },
+    ],
     stores: [
       { type: "app-store", label: "App Store", url: "https://apps.apple.com/us/app/roze-moon/id6739536345" },
       { type: "play-store", label: "Play Store", url: "https://play.google.com/store/apps/details?id=com.rozemoon.app" },
@@ -40,13 +43,16 @@ export const projects = [
     status: "live",
     frame: "phone",
     blurb:
-      "A feature-first invoicing app backed by a self-built ASP.NET Core 10 + PostgreSQL API, with real-time billing pushed to clients over WebSockets.",
+      "A product I built across Flutter, React and TypeScript, ASP.NET Core, PostgreSQL, billing, media processing, and self-hosted deployment.",
     points: [
-      "Client: flutter_bloc (Cubit), get_it, auto_route guards, Dio, Forui, en/ar localization.",
-      "Backend: JWT multi-device sessions, RabbitMQ async processing, Cloudflare R2 storage.",
-      "RevenueCat as billing source of truth; invoice reconciliation and pluggable ZATCA e-invoicing.",
+      "Used feature-first Clean Architecture, Cubit, dependency injection, guarded routing, and English and Arabic interfaces.",
+      "Built the public React web app and an ASP.NET Core API with PostgreSQL, JWT sessions, RabbitMQ, and Cloudflare R2.",
+      "Used RevenueCat as the billing source of truth and pushed changes over WebSockets. ZATCA e-invoicing is still in progress.",
     ],
-    tags: ["Flutter", "Cubit", "ASP.NET Core", "PostgreSQL", "RevenueCat", "WebSockets"],
+    tags: ["Flutter", "React", "TypeScript", "ASP.NET Core", "PostgreSQL", "RabbitMQ"],
+    stories: [
+      { label: "Read the full-stack ownership story", slug: "invoice-star-full-stack-product-ownership" },
+    ],
     stores: [
       { type: "app-store", label: "App Store", url: "https://apps.apple.com/app/id6757845435" },
       { type: "web", label: "invoicestar.online", url: "https://invoicestar.online" },
@@ -62,12 +68,17 @@ export const projects = [
     status: "live",
     frame: "tablet",
     blurb:
-      "A self-service point-of-sale app that makes donating quick and fully autonomous — built for kiosks, charity events, and standalone tablets.",
+      "A self-service donation app built for Android kiosks that may be left unattended for 24 to 48 hours at a time.",
     points: [
-      "Browse donation programs, pick a preset or custom amount, and complete the flow by touch.",
-      "Designed for unattended kiosk use with a streamlined, distraction-free journey.",
+      "Donors choose a program and amount, pay by card, and can print a receipt through a USB thermal printer.",
+      "Built a separate-process foreground service that reports app, display, and printer problems to the server.",
+      "Forked the printer plugin and changed its Kotlin channel so the USB connection could recover by itself.",
     ],
-    tags: ["Flutter", "Kiosk", "POS", "Touch UI"],
+    tags: ["Flutter", "Kotlin", "Kiosk", "Foreground Service", "USB"],
+    stories: [
+      { label: "Read the reliability story", slug: "khedma-reliability-under-client-constraint" },
+      { label: "Read the native Android story", slug: "native-android-debugging" },
+    ],
     stores: [
       { type: "play-store", label: "Play Store", url: "https://play.google.com/store/apps/details?id=online.amaal.khedma" },
       { type: "github", label: "Releases", url: "https://github.com/najm101/khedma-releases" },
@@ -83,10 +94,10 @@ export const projects = [
     status: "live",
     frame: "framed",
     blurb:
-      "A location-aware attendance app that registers check-in and check-out automatically — no manual punch — and syncs to the HR platform in real time.",
+      "A location-aware attendance app that registers check-in and check-out automatically and syncs the result to the HR platform in real time.",
     points: [
-      "Ties each record to per-employee settings.",
-      "Automatically detects and surfaces travel / commute delays for HR review.",
+      "Ties each attendance record to the employee's own settings.",
+      "Detects and surfaces travel or commute delays for HR review.",
     ],
     tags: ["Flutter", "Geolocation", "Background Services", "Real-time Sync"],
     stores: [
@@ -104,7 +115,7 @@ export const projects = [
     status: "live",
     frame: "phone",
     blurb:
-      "An internal app that lets employees order meals from restaurants within the company, generating and printing order receipts instantly.",
+      "An internal app that lets employees order meals from restaurants inside the company and prints the order receipt at the point of purchase.",
     points: [
       "Instant receipt generation and printing at point of order.",
     ],
@@ -124,7 +135,7 @@ export const projects = [
     status: "live",
     frame: "framed",
     blurb:
-      "An app for Steam Deck owners providing verified compatibility details for thousands of Steam games.",
+      "A utility I built for Steam Deck owners who want to check compatibility details across thousands of Steam games.",
     points: [],
     tags: ["Flutter", "REST API", "Gaming"],
     stores: [

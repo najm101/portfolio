@@ -1,129 +1,119 @@
 # Abdelrahman Negm
 
-**Headline:** Mobile Engineer (Flutter)
-**Location:** 6th of October, Egypt
-**Email:** bodinegem@gmail.com
-**Phone:** +20 102 3741643
-**LinkedIn:** [linkedin.com/in/abdelrahman-negm-374b20201](https://linkedin.com/in/abdelrahman-negm-374b20201)
+**Headline:** Mobile Engineer (Flutter)<br>
+**Location:** 6th of October, Egypt<br>
+**Email:** bodinegem@gmail.com<br>
+**Phone:** +20 102 3741643<br>
+**LinkedIn:** [linkedin.com/in/abdelrahman-negm-374b20201](https://linkedin.com/in/abdelrahman-negm-374b20201)<br>
 **GitHub:** [github.com/najm101](https://github.com/najm101)
-
----
 
 ## Professional Summary
 
-Mobile Engineer with 2+ years shipping 6+ production apps for Android and iOS in Flutter/Dart. Strong in Clean Architecture, Bloc/GetX, REST APIs, and Firebase. Owns features end-to-end, leads code reviews, mentors juniors, and builds CI/CD for App Store and Play Store releases across e-commerce, HR, and utility domains. Comfortable owning the full stack when needed — from Flutter clients down to self-hosted .NET/PostgreSQL backends and Dockerized VPS deployments.
-
----
+Mobile Engineer with 3 years of experience shipping 6+ production apps for Android and iOS in Flutter and Dart. Strong in Clean Architecture, Bloc and GetX, REST APIs, and Firebase. Owns features end to end, leads code reviews, mentors developers, and builds CI/CD for App Store and Play Store releases. Comfortable following the product beyond the client into React, TypeScript, ASP.NET Core, PostgreSQL, billing, and self-hosted deployment work.
 
 ## Work Experience
 
-### Tuwaiq — Junior Mobile Engineer
-*Al Sheikh Zayed, Egypt | April 2024 – Jan 2026*
+### Osmacc (Amaal) – Flutter Developer (Sole Mobile Engineer)
+*Remote, part-time | February 2025 – Present*
 
-- Led end-to-end development of the Roze Moon Flutter e-commerce app, using analytics to refine UI/UX and boost retention.
-- Built a CI/CD pipeline that cut release cycles by 40%.
-- Took over the team's VPS hosting the .NET backend: containerized the backend and database with Docker, set up a CI/CD pipeline for backend deploys, provisioned a separate dev environment, and self-hosted the deployment platform with Dokploy.
-- Mentored developers and streamlined Agile workflows in Jira.
+- Sole Flutter developer for a cloud business-management platform with more than 20 years in the market and about 500 enterprise clients.
+- Designed, built, and shipped three production apps solo: Tawqet, Wgbah, and Khedma.
+- Owned architecture, Flutter UI from designs, REST API integration, store submission, and post-launch support.
+- Built unattended-device telemetry for Khedma and changed a Flutter plugin's Kotlin channel so its USB printer connection could recover by itself.
 
-### Vimigo Technologies — Intern Flutter Developer
+### Tuwaiq – Junior Mobile Engineer
+*Al Sheikh Zayed, Egypt | April 2024 – January 2026*
+
+- Took ownership of Roze Moon from Flutter architecture and high-fidelity UI through JWT APIs, Payfort payments, notifications, and both store releases.
+- Built the mobile CI/CD pipeline, making releases faster and removing manual build errors.
+- Took over the team's undocumented VPS, containerized the .NET backend and database with Docker, added backend CI/CD, created a separate development environment, and set up Dokploy without taking production down.
+- Led code reviews, wrote architecture guidance, and mentored developers.
+
+### Vimigo Technologies – Intern Flutter Developer
 *Kuala Lumpur, Malaysia | July 2023 – October 2023*
 
-- Built high-performance Flutter features and integrated REST APIs with backend teams.
-- Used analytics to drive improvements while maintaining a clean, reliable codebase with Git.
+- Built Flutter features and integrated REST APIs with a backend team working across countries and time zones.
+- Used analytics to check feature behavior while maintaining a clean, reviewable Git history.
 
-### Pioneer4ss — Intern Flutter Developer
+### Pioneer4ss – Intern Flutter Developer
 *Cyberjaya, Malaysia | November 2021 – January 2022*
 
-- Managed and updated website content management systems.
-- Engineered a dedicated Android client application that consumed the company's WordPress REST API, extending web functionality to mobile users.
-
----
+- Managed and updated website content-management systems.
+- Built a dedicated Android client that used the company's WordPress REST API and brought the website's functionality to mobile users.
 
 ## Projects
 
-### Roze Moon — E-commerce App (iOS & Android)
-*July 2024 – Present | [App Store](https://apps.apple.com/us/app/roze-moon/id6739536345) (id6739536345) · Play Store (com.rozemoon.app)*
+### Roze Moon – E-commerce App for iOS and Android
+*July 2024 – Present | [App Store](https://apps.apple.com/us/app/roze-moon/id6739536345) · [Play Store](https://play.google.com/store/apps/details?id=com.rozemoon.app)*
 
-- Clean Architecture + Bloc; pixel-perfect responsive UIs from high-fidelity designs.
-- Secure REST APIs with JWT auth; caching and lazy loading for performance.
-- Payfort payment gateway and Firebase Cloud Messaging push notifications.
-- Led GitHub repo management with enforced commit standards and reviews.
+- Used Clean Architecture with Bloc and built responsive interfaces from high-fidelity designs.
+- Integrated JWT APIs, Payfort payments, caching, lazy loading, and Firebase Cloud Messaging.
+- Added repository standards, code reviews, and CI/CD. The app launched with no critical post-launch incidents.
 
-### Invoice Star — Full-Stack Invoicing & Billing App
-*2026 – Present | [App Store](https://apps.apple.com/app/id6757845435) (id6757845435) · [invoicestar.online](https://invoicestar.online)*
+### Invoice Star – Full-Stack Invoicing and Billing App
+*2026 – Present | [App Store](https://apps.apple.com/app/id6757845435) · [invoicestar.online](https://invoicestar.online)*
 
-- **Client:** Feature-first Clean Architecture — flutter_bloc (Cubit), get_it, auto_route (auth/subscription guards), Dio, Forui UI, en/ar localization.
-- **Backend:** Self-built ASP.NET Core 10 + PostgreSQL/EF Core REST API — JWT multi-device sessions, RabbitMQ async processing, Cloudflare R2 storage.
-- **Billing:** RevenueCat as source of truth, pushed to clients in real time over WebSockets (no polling).
-- **Fintech:** Invoice reconciliation (derive-don't-mutate), payments/refunds, pluggable ZATCA e-invoicing with cryptographic signing (in progress).
-- **DevOps:** Self-hosted VPS, Docker (backend + DB), CI/CD, separate dev env, Dokploy.
+- **Mobile:** Feature-first Clean Architecture with Cubit, get_it, guarded auto_route navigation, Dio, Forui, and English and Arabic interfaces.
+- **Web:** React 19 and TypeScript with Vite, Tailwind CSS, React Router, and bilingual public invoice and receipt pages.
+- **Backend:** ASP.NET Core 10, PostgreSQL, EF Core, JWT multi-device sessions, RabbitMQ, WebSockets, and Cloudflare R2.
+- **Billing:** RevenueCat is the source of truth, with billing changes pushed to clients over WebSockets.
+- **Media:** Queued background processing creates thumbnails and compressed images outside the API request path.
+- **DevOps:** Docker, GitHub Actions for API, web, and mobile delivery, separate environments, Dokploy, and a self-hosted VPS.
+- ZATCA e-invoicing and cryptographic signing are in progress.
 
-### Khedma — Self-Service POS Donations App
-*Aug 2025 – Present | Play Store (online.amaal.khedma) · [github.com/najm101/khedma-releases](https://github.com/najm101/khedma-releases)*
+### Khedma – Self-Service POS Donations App
+*August 2025 – Present | [Play Store](https://play.google.com/store/apps/details?id=online.amaal.khedma) · [GitHub](https://github.com/najm101/khedma-releases)*
 
-- Self-service point-of-sale (POS) app that makes donating quick, simple, and fully autonomous — built for electronic kiosks, charity events, and standalone tablets.
-- Users browse donation programs, pick predefined amounts or enter a custom amount, and complete the flow through an intuitive touch interface.
-- Designed for unattended kiosk use with a streamlined, distraction-free donation journey.
+- Runs unattended on Android kiosks for 24 to 48 hours at a time. Donors choose a program and amount, pay by card, and can print a receipt through a USB thermal printer.
+- Built a separate-process foreground service that reports app, display, and printer problems to the server.
+- Forked the printer plugin and changed its Kotlin channel to add a self-healing USB connection.
 
-### Tawqet — Attendance App for HR
-*Feb 2025 – Present | [App Store](https://apps.apple.com/app/id6742491484) (id6742491484) · Play Store (online.amaal.app)*
+### Real-Time Bus Tracking System – University Final-Year Project
+*Completed proof of concept, never deployed*
 
-- Mobile attendance app that automatically registers check-in and check-out using device location and timing, with no manual punch required.
-- Syncs attendance to the HR platform in real time and ties each record to per-employee settings.
-- Automatically detects and surfaces travel/commute delays for HR review.
+- Built a Flutter client with a WebSocket backend that streamed live bus locations from Android phones carried on the buses.
+- Completed the system end to end, but the university did not have the infrastructure to deploy it.
 
-### Wgbah — Internal Food Ordering App
-*April 2025 – Present | [App Store](https://apps.apple.com/app/id6744456485) (id6744456485) · Play Store (com.wgbah.app)*
+### Tawqet – Attendance App for HR
+*February 2025 – Present | [App Store](https://apps.apple.com/us/app/tawqet/id6742491484) · [Play Store](https://play.google.com/store/apps/details?id=online.amaal.app)*
 
-- Internal app that lets employees order meals from restaurants within the company.
-- Generates and prints order receipts instantly at point of order.
+- Registers check-in and check-out using device location and timing, then syncs the result to the HR platform.
+
+### Wgbah – Internal Food Ordering App
+*April 2025 – Present | [App Store](https://apps.apple.com/app/id6744456485) · [Play Store](https://play.google.com/store/apps/details?id=com.wgbah.app)*
+
+- Lets employees order meals from restaurants inside the company and prints receipts at the point of purchase.
 
 ### SteamDeck: Game Compatibility
-*Oct 2022 – Present | Play Store (com.negm.deck_verfied_checker)*
+*October 2022 – Present | [Play Store](https://play.google.com/store/apps/details?id=com.negm.deck_verfied_checker)*
 
-- App for Steam Deck gamers providing compatibility details for thousands of Steam games.
+- Provides compatibility details across thousands of Steam games.
 
-### PDF Compressor Utility — Windows (deprecated)
-*Sep 2022 – October 2022 | Microsoft Store*
+### PDF Compressor Utility – Windows
+*September 2022 – October 2022 | Deprecated*
 
-- Offline Windows app that compresses batches of PDF files without an internet connection.
-
----
-
-## Technical Achievements
-
-- **Deployment Automation:** Architected CI/CD pipelines for automated App Store and Play Store publishing, eliminating manual build errors.
-- **Performance Engineering:** Resolved critical UI freezing on budget devices by refactoring the native camera implementation.
-- **Data Visualization:** Integrated complex geo-data visualization using mapping APIs (Nominatim / Geoboundaries).
-- **Offline Sync:** Implemented robust offline-first data layers using Drift and SQLite for low-connectivity environments.
-- **System Integration:** Engineered background task schedulers to optimize resource usage on Desktop and Web platforms.
-- **Native Features:** Developed custom Home Screen Widgets to drive user engagement and accessibility.
-
----
+- Built an offline Windows app that compressed batches of PDF files without an internet connection.
 
 ## Skills
 
-- **Flutter Development:** Bloc & GetX, Clean Architecture, Platform Channels, Flutter Web, Provider, Offline Caching, Responsive Design, Background Services, Isolates, GeoData & Maps
-- **UI/UX & Design:** Figma, Adobe Illustrator, Material Design 3, Cupertino Style, User Behavior Analysis
-- **Backend & Infrastructure:** RESTful APIs, ASP.NET Core, Firebase Suite, AWS Foundations, SQL & NoSQL, PHP Integration, Linux Environments
-- **DevOps:** Docker, Dokploy, VPS administration, CI/CD Pipelines, dev/prod environments, self-hosting
-- **Tools & Languages:** Dart, Kotlin, Java, C++, Git & GitHub Flow, Jira / Agile, System Design
-
----
+- **Flutter and mobile:** Bloc, GetX, Clean Architecture, Platform Channels, background services, offline data, responsive UI, isolates, maps and geodata, App Store and Play Store releases
+- **Web frontend:** React, TypeScript, Vite, Tailwind CSS, React Router, responsive and bilingual interfaces, Flutter Web
+- **Backend and data:** ASP.NET Core, C#, PostgreSQL, EF Core, RabbitMQ, WebSockets, REST APIs, JWT, Firebase
+- **Cloud and DevOps:** Docker, GitHub Actions, Dokploy, Cloudflare R2, AWS EC2, VPS administration, separate development and production environments
+- **Native Android:** Kotlin, Java, USB and printer integration, Flutter plugin forks, Android process lifecycle, native camera debugging
+- **Product and workflow:** Figma, analytics, code reviews, mentoring, Git and GitHub Flow, Jira and Agile, Claude Code and Codex
 
 ## Education
 
-**Multimedia University, Malaysia** — Bachelor of Computer Science (Software Engineering), 2019 – 2023
-
----
+**Multimedia University, Cyberjaya, Malaysia**<br>
+Bachelor of Computer Science (Honours), Specialisation in Software Engineering<br>
+2019 – November 2023
 
 ## Certifications
 
-- AWS Academy Cloud Foundations — AWS Academy Graduate
-
----
+- AWS Academy Cloud Foundations, AWS Academy Graduate
 
 ## Languages
 
-- Arabic — Native
-- English — Fluent
+- Arabic: Native
+- English: Fluent
