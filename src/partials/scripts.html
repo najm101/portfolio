@@ -1,24 +1,215 @@
 <script>
-  // Drag-to-scroll for the screenshot galleries (touch swipe already works natively).
-  document.querySelectorAll(".gallery").forEach((gallery) => {
-    let down = false, startX = 0, startScroll = 0, moved = false;
-    gallery.addEventListener("pointerdown", (e) => {
-      if (e.pointerType === "touch") return; // let native touch scrolling handle it
-      down = true;
-      moved = false;
-      startX = e.clientX;
-      startScroll = gallery.scrollLeft;
-      gallery.setPointerCapture(e.pointerId);
+  (() => {
+    const desktop = window.matchMedia("(min-width: 64rem)");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const responsiveDisclosures = [...document.querySelectorAll("[data-responsive-disclosure]")];
+
+    const syncDisclosures = () => {
+      responsiveDisclosures.forEach((details) => {
+        details.open = desktop.matches;
+      });
+    };
+
+    syncDisclosures();
+    desktop.addEventListener("change", syncDisclosures);
+
+    responsiveDisclosures.forEach((details) => {
+      details.addEventListener("toggle", () => {
+        if (desktop.matches || !details.open) return;
+        const group = details.dataset.disclosureGroup;
+        if (!group) return;
+
+        responsiveDisclosures.forEach((candidate) => {
+          if (candidate !== details && candidate.dataset.disclosureGroup === group) {
+            candidate.open = false;
+          }
+        });
+      });
     });
-    gallery.addEventListener("pointermove", (e) => {
-      if (!down) return;
-      const dx = e.clientX - startX;
-      if (Math.abs(dx) > 4) moved = true;
-      gallery.scrollLeft = startScroll - dx;
+
+    const mobileMenu = document.querySelector("[data-mobile-menu]");
+    if (mobileMenu) {
+      const menuSummary = mobileMenu.querySelector("summary");
+      mobileMenu.querySelectorAll("[data-mobile-menu-link]").forEach((link) => {
+        link.addEventListener("click", () => { mobileMenu.open = false; });
+      });
+
+      document.addEventListener("pointerdown", (event) => {
+        if (mobileMenu.open && !mobileMenu.contains(event.target)) mobileMenu.open = false;
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && mobileMenu.open) {
+          mobileMenu.open = false;
+          menuSummary?.focus();
+        }
+      });
+    }
+
+    const sectionLinks = [...document.querySelectorAll("[data-section-link]")];
+    const sectionMap = new Map();
+    sectionLinks.forEach((link) => {
+      const hash = new URL(link.href, window.location.href).hash;
+      const section = hash ? document.querySelector(hash) : null;
+      if (!section) return;
+      if (!sectionMap.has(section)) sectionMap.set(section, []);
+      sectionMap.get(section).push(link);
     });
-    const end = () => { down = false; if (moved) gallery.style.cursor = ""; };
-    gallery.addEventListener("pointerup", end);
-    gallery.addEventListener("pointercancel", end);
-    gallery.addEventListener("dragstart", (e) => moved && e.preventDefault());
-  });
+
+    if (sectionMap.size) {
+      let sectionLockUntil = 0;
+      const setCurrentSection = (section) => {
+        sectionLinks.forEach((link) => link.removeAttribute("aria-current"));
+        sectionMap.get(section)?.forEach((link) => link.setAttribute("aria-current", "true"));
+      };
+
+      sectionLinks.forEach((link) => {
+        const hash = new URL(link.href, window.location.href).hash;
+        const section = hash ? document.querySelector(hash) : null;
+        if (sectionMap.has(section)) link.addEventListener("click", () => {
+          sectionLockUntil = performance.now() + 900;
+          setCurrentSection(section);
+        });
+      });
+
+      const triggerMap = new Map();
+      sectionMap.forEach((_, section) => {
+        const trigger = section.querySelector("h2") || section;
+        triggerMap.set(trigger, section);
+      });
+
+      const sectionObserver = new IntersectionObserver((entries) => {
+        if (performance.now() < sectionLockUntil) return;
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible) setCurrentSection(triggerMap.get(visible.target));
+      }, { rootMargin: "-12% 0px -78%", threshold: 0 });
+
+      triggerMap.forEach((_, trigger) => sectionObserver.observe(trigger));
+    }
+
+    document.querySelectorAll("[data-gallery]").forEach((gallery) => {
+      const items = [...gallery.querySelectorAll("[data-gallery-item]")];
+      const shell = gallery.closest(".gallery-shell");
+      const previous = shell?.querySelector("[data-gallery-prev]");
+      const next = shell?.querySelector("[data-gallery-next]");
+      const current = shell?.querySelector("[data-gallery-current]");
+      let activeIndex = 0;
+      let frameRequested = false;
+      let pointerDown = false;
+      let startX = 0;
+      let startScroll = 0;
+
+      const update = () => {
+        frameRequested = false;
+        if (!items.length) return;
+        const canScroll = gallery.scrollWidth > gallery.clientWidth + 2;
+        const maxScroll = Math.max(0, gallery.scrollWidth - gallery.clientWidth);
+        activeIndex = canScroll
+          ? Math.round((gallery.scrollLeft / maxScroll) * (items.length - 1))
+          : 0;
+        shell.dataset.galleryStatic = String(!canScroll);
+        if (current) current.textContent = String(activeIndex + 1);
+        if (previous) previous.disabled = !canScroll || activeIndex === 0;
+        if (next) next.disabled = !canScroll || activeIndex === items.length - 1;
+      };
+
+      const scheduleUpdate = () => {
+        if (!frameRequested) {
+          frameRequested = true;
+          requestAnimationFrame(update);
+        }
+      };
+
+      const goTo = (index) => {
+        const bounded = Math.max(0, Math.min(items.length - 1, index));
+        const item = items[bounded];
+        if (!item) return;
+        const maxScroll = Math.max(0, gallery.scrollWidth - gallery.clientWidth);
+        const left = items.length > 1 ? maxScroll * (bounded / (items.length - 1)) : 0;
+        gallery.scrollTo({ left, behavior: reducedMotion.matches ? "auto" : "smooth" });
+      };
+
+      previous?.addEventListener("click", () => goTo(activeIndex - 1));
+      next?.addEventListener("click", () => goTo(activeIndex + 1));
+      gallery.addEventListener("scroll", scheduleUpdate, { passive: true });
+      gallery.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowLeft") {
+          event.preventDefault();
+          goTo(activeIndex - 1);
+        }
+        if (event.key === "ArrowRight") {
+          event.preventDefault();
+          goTo(activeIndex + 1);
+        }
+      });
+
+      gallery.addEventListener("pointerdown", (event) => {
+        if (event.pointerType === "touch") return;
+        pointerDown = true;
+        startX = event.clientX;
+        startScroll = gallery.scrollLeft;
+        gallery.setPointerCapture(event.pointerId);
+      });
+      gallery.addEventListener("pointermove", (event) => {
+        if (pointerDown) gallery.scrollLeft = startScroll - (event.clientX - startX);
+      });
+      const endPointer = () => { pointerDown = false; };
+      gallery.addEventListener("pointerup", endPointer);
+      gallery.addEventListener("pointercancel", endPointer);
+      gallery.addEventListener("dragstart", (event) => event.preventDefault());
+
+      gallery.closest("details")?.addEventListener("toggle", (event) => {
+        if (event.currentTarget.open) requestAnimationFrame(update);
+      });
+      window.addEventListener("resize", scheduleUpdate, { passive: true });
+      update();
+    });
+
+    const storyContent = document.querySelector("[data-story-content]");
+    const progress = document.querySelector("[data-reading-progress]");
+    if (storyContent && progress) {
+      let progressFrame = false;
+      const updateProgress = () => {
+        progressFrame = false;
+        const start = storyContent.offsetTop;
+        const distance = Math.max(1, storyContent.offsetHeight - window.innerHeight * 0.65);
+        const value = Math.max(0, Math.min(1, (window.scrollY - start) / distance));
+        progress.style.transform = `scaleX(${value})`;
+      };
+      const scheduleProgress = () => {
+        if (!progressFrame) {
+          progressFrame = true;
+          requestAnimationFrame(updateProgress);
+        }
+      };
+      document.addEventListener("scroll", scheduleProgress, { passive: true });
+      window.addEventListener("resize", scheduleProgress, { passive: true });
+      updateProgress();
+    }
+
+    const storyTocLinks = [...document.querySelectorAll("[data-story-toc-link]")];
+    if (storyTocLinks.length) {
+      const headingMap = new Map();
+      storyTocLinks.forEach((link) => {
+        const heading = document.querySelector(new URL(link.href, window.location.href).hash);
+        if (!heading) return;
+        if (!headingMap.has(heading)) headingMap.set(heading, []);
+        headingMap.get(heading).push(link);
+        link.addEventListener("click", () => {
+          link.closest("details")?.removeAttribute("open");
+        });
+      });
+
+      const tocObserver = new IntersectionObserver((entries) => {
+        const visible = entries.find((entry) => entry.isIntersecting);
+        if (!visible) return;
+        storyTocLinks.forEach((link) => link.removeAttribute("aria-current"));
+        headingMap.get(visible.target)?.forEach((link) => link.setAttribute("aria-current", "true"));
+      }, { rootMargin: "-18% 0px -72%", threshold: 0 });
+
+      headingMap.forEach((_, heading) => tocObserver.observe(heading));
+    }
+  })();
 </script>

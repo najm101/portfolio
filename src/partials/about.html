@@ -1,16 +1,16 @@
-<section id="about" class="border-t border-line">
-  <div class="container-x grid gap-8 py-16 md:grid-cols-[0.4fr_0.6fr] md:py-24">
-    <div>
+<section id="about" class="casebook-section" aria-labelledby="about-title">
+  <div class="container-x section-grid">
+    <div class="section-heading">
       <p class="eyebrow">About</p>
-      <h2 class="section-title mt-3">I follow the work past the mobile client.</h2>
+      <h2 id="about-title" class="section-title">I follow the work past the mobile client.</h2>
     </div>
-    <div class="space-y-5 text-lg leading-relaxed text-muted">
-      <p>{{SUMMARY}}</p>
-      <p class="flex flex-wrap gap-x-6 gap-y-2 pt-2 font-mono text-sm text-ink">
-        <span><span class="text-muted">Based in</span> {{LOCATION}}</span>
-        <span><span class="text-muted">Arabic</span> Native</span>
-        <span><span class="text-muted">English</span> Fluent</span>
-      </p>
+    <div class="about-panel">
+      <p class="about-panel__summary">{{SUMMARY}}</p>
+      <dl class="about-panel__meta">
+        <div><dt>Based in</dt><dd>{{LOCATION}}</dd></div>
+        <div><dt>Arabic</dt><dd>Native</dd></div>
+        <div><dt>English</dt><dd>Fluent</dd></div>
+      </dl>
     </div>
   </div>
 </section>

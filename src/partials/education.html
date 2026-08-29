@@ -1,18 +1,18 @@
-<section class="border-t border-line">
-  <div class="container-x grid gap-10 py-14 md:grid-cols-3 md:py-20">
-    <div>
+<section class="casebook-section education-section" aria-label="Education, certifications, and languages">
+  <div class="container-x education-grid">
+    <div class="education-card education-card--wide">
       <p class="eyebrow">Education</p>
-      <h3 class="mt-4 font-display text-xl font-bold tracking-tight">{{EDU_SCHOOL}}</h3>
-      <p class="mt-1 text-muted">{{EDU_DEGREE}}</p>
-      <p class="mt-2 font-mono text-xs text-muted">{{EDU_PERIOD}}</p>
+      <h3>{{EDU_SCHOOL}}</h3>
+      <p>{{EDU_DEGREE}}</p>
+      <p class="education-card__meta">{{EDU_PERIOD}}</p>
     </div>
-    <div>
+    <div class="education-card">
       <p class="eyebrow">Certifications</p>
-      <div class="mt-4 space-y-3">{{CERTS}}</div>
+      <div class="education-card__content">{{CERTS}}</div>
     </div>
-    <div>
+    <div class="education-card">
       <p class="eyebrow">Languages</p>
-      <div class="mt-4 space-y-3">{{LANGUAGES}}</div>
+      <div class="education-card__content">{{LANGUAGES}}</div>
     </div>
   </div>
 </section>

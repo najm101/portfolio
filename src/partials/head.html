@@ -12,11 +12,20 @@
   <meta property="og:url" content="{{PAGE_URL}}" />
   <meta name="theme-color" content="#3d2ee0" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="icon" href="{{ASSET_PREFIX}}assets/favicon.svg" type="image/svg+xml" />
   <link
-    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Inter:wght@400;500;600;700&amp;display=swap"
-    rel="stylesheet"
+    rel="preload"
+    href="{{ASSET_PREFIX}}assets/fonts/bricolage-grotesque-latin.woff2"
+    as="font"
+    type="font/woff2"
+    crossorigin
+  />
+  <link
+    rel="preload"
+    href="{{ASSET_PREFIX}}assets/fonts/inter-latin.woff2"
+    as="font"
+    type="font/woff2"
+    crossorigin
   />
   <link rel="stylesheet" href="{{ASSET_PREFIX}}assets/styles.css" />
 </head>

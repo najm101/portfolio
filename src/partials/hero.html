@@ -1,64 +1,52 @@
-<section class="relative overflow-hidden">
-  <div
-    class="pointer-events-none absolute inset-x-0 -top-32 h-72 bg-[radial-gradient(60%_60%_at_50%_0%,var(--color-brand-soft),transparent_70%)]"
-    aria-hidden="true"
-  ></div>
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero__glow" aria-hidden="true"></div>
+  <div class="container-x hero__inner">
+    <div class="hero__grid">
+      <div class="hero__copy">
+        <p class="eyebrow hero__eyebrow">
+          <span>{{LOCATION}}</span>
+          <span class="eyebrow__divider" aria-hidden="true"></span>
+          <span class="pill-live">Open to work</span>
+        </p>
 
-  <div class="container-x grid gap-10 pt-12 pb-14 md:grid-cols-[1.05fr_0.95fr] md:items-center md:pt-20 md:pb-20">
-    <div>
-      <p class="eyebrow mb-5 flex flex-wrap items-center gap-x-3 gap-y-2">
-        <span>{{LOCATION}}</span>
-        <span class="text-line" aria-hidden="true">/</span>
-        <span class="pill-live">Open to work</span>
-      </p>
+        <h1 id="hero-title">{{NAME}}</h1>
+        <p class="hero__headline">{{HEADLINE}}</p>
+        <p class="hero__thesis">{{THESIS}}</p>
 
-      <h1 class="font-display text-[clamp(2.6rem,11vw,4.75rem)] font-extrabold leading-[0.95] tracking-[-0.03em]">
-        {{NAME}}
-      </h1>
+        <div class="hero__actions">
+          <a href="#work" class="button button--primary">
+            View the work
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+          <a href="mailto:{{EMAIL}}" class="button button--quiet">Email me</a>
+        </div>
 
-      <p class="mt-4 font-mono text-sm text-brand">{{HEADLINE}}</p>
-
-      <p class="mt-6 max-w-xl text-lg leading-relaxed text-muted">
-        {{THESIS}}
-      </p>
-
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a
-          href="#work"
-          class="inline-flex items-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white transition hover:translate-y-[-2px] hover:shadow-lg hover:shadow-brand/30"
-        >
-          View the work
-          <svg viewBox="0 0 24 24" fill="none" class="h-4 w-4" aria-hidden="true">
-            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </a>
-        <a
-          href="mailto:{{EMAIL}}"
-          class="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-6 py-3 text-sm font-semibold transition hover:border-brand hover:text-brand"
-        >
-          Email me
-        </a>
+        <dl class="hero__stats">{{STATS}}</dl>
       </div>
 
-      <dl class="mt-10 grid max-w-md grid-cols-3 gap-4 border-t border-line pt-6">
-        {{STATS}}
-      </dl>
-    </div>
-
-    <!-- Build artifact: a Flutter widget that introduces me, not empty screenshots. -->
-    <div class="relative mx-auto w-full max-w-md px-2 pb-8 md:max-w-none md:px-0">
-      <div
-        class="code-card"
-        role="img"
-        aria-label="A Flutter widget describing Abdelrahman Negm: 6+ production apps shipped for iOS and Android, with ownership from mobile through backend delivery."
-      >
-        <div class="code-card__bar">
-          <span class="code-dot code-dot--r" aria-hidden="true"></span>
-          <span class="code-dot code-dot--y" aria-hidden="true"></span>
-          <span class="code-dot code-dot--g" aria-hidden="true"></span>
-          <span class="code-card__file">negm.dart</span>
-        </div>
-        <pre class="code-card__body" aria-hidden="true"><code><span class="tok-key">class</span> <span class="tok-cls">Negm</span> <span class="tok-key">extends</span> <span class="tok-cls">Engineer</span> {
+      <details class="hero-proof responsive-disclosure" data-responsive-disclosure>
+        <summary>
+          <span>
+            <span class="hero-proof__label">Engineering snapshot</span>
+            <span class="hero-proof__meta">Flutter · iOS · Android · Full-stack</span>
+          </span>
+          <span class="disclosure-icon" aria-hidden="true"></span>
+        </summary>
+        <div class="hero-proof__body">
+          <div
+            class="code-card"
+            role="img"
+            aria-label="A Flutter widget describing Abdelrahman Negm: 6+ production apps shipped for iOS and Android, with ownership from mobile through backend delivery."
+          >
+            <div class="code-card__bar">
+              <span class="code-dot code-dot--r" aria-hidden="true"></span>
+              <span class="code-dot code-dot--y" aria-hidden="true"></span>
+              <span class="code-dot code-dot--g" aria-hidden="true"></span>
+              <span class="code-card__file">negm.dart</span>
+            </div>
+            <pre class="code-card__body" aria-hidden="true"><code><span class="tok-key">class</span> <span class="tok-cls">Negm</span> <span class="tok-key">extends</span> <span class="tok-cls">Engineer</span> {
   <span class="tok-ann">@override</span>
   <span class="tok-cls">Widget</span> <span class="tok-fn">build</span>(<span class="tok-cls">BuildContext</span> context) {
     <span class="tok-key">return</span> <span class="tok-cls">Shipped</span>(
@@ -70,19 +58,22 @@
     );
   }
 }</code></pre>
-      </div>
+          </div>
 
-      <!-- Floating proof: shipped to real stores. -->
-      <div class="float-badge" aria-hidden="true">
-        <span class="float-badge__stores">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.36 12.6c-.02-2.3 1.88-3.4 1.96-3.46-1.07-1.57-2.74-1.78-3.33-1.8-1.42-.14-2.77.83-3.49.83-.72 0-1.83-.81-3.01-.79-1.55.02-2.98.9-3.78 2.29-1.61 2.8-.41 6.93 1.16 9.2.77 1.11 1.68 2.35 2.87 2.31 1.15-.05 1.58-.74 2.97-.74 1.38 0 1.77.74 2.98.72 1.23-.02 2.01-1.13 2.76-2.25.87-1.29 1.23-2.54 1.25-2.6-.03-.01-2.39-.92-2.41-3.66zM14.1 5.66c.64-.77 1.07-1.85.95-2.92-.92.04-2.03.61-2.69 1.38-.59.68-1.11 1.78-.97 2.83 1.03.08 2.07-.52 2.71-1.29z"/></svg>
-          <svg viewBox="0 0 24 24"><path d="M4 3.2c-.3.18-.5.5-.5.92v15.76c0 .42.2.74.5.92l8.43-8.8L4 3.2z" fill="#34A853"/><path d="M16.6 8.06L13.2 6.1 4.6 2.78c-.13-.05-.24-.06-.35-.04l8.18 8.55 4.17-4.23z" fill="#EA4335"/><path d="M4.25 21.26c.1.02.22 0 .35-.04l8.6-3.32 3.4-1.96-4.17-4.23-8.18 9.55z" fill="#FBBC04"/><path d="M16.6 8.06l-4.17 4.23 4.17 4.23 3.78-2.19c.6-.35.6-1.46 0-1.81L16.6 8.06z" fill="#4285F4"/></svg>
-        </span>
-        <span class="float-badge__text">
-          <span class="float-badge__num">6+ apps</span>
-          <span class="float-badge__sub">live on stores</span>
-        </span>
-      </div>
+          <div class="float-badge" aria-hidden="true">
+            <span class="float-badge__stores">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.36 12.6c-.02-2.3 1.88-3.4 1.96-3.46-1.07-1.57-2.74-1.78-3.33-1.8-1.42-.14-2.77.83-3.49.83-.72 0-1.83-.81-3.01-.79-1.55.02-2.98.9-3.78 2.29-1.61 2.8-.41 6.93 1.16 9.2.77 1.11 1.68 2.35 2.87 2.31 1.15-.05 1.58-.74 2.97-.74 1.38 0 1.77.74 2.98.72 1.23-.02 2.01-1.13 2.76-2.25.87-1.29 1.23-2.54 1.25-2.6-.03-.01-2.39-.92-2.41-3.66zM14.1 5.66c.64-.77 1.07-1.85.95-2.92-.92.04-2.03.61-2.69 1.38-.59.68-1.11 1.78-.97 2.83 1.03.08 2.07-.52 2.71-1.29z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M4 3.2c-.3.18-.5.5-.5.92v15.76c0 .42.2.74.5.92l8.43-8.8L4 3.2z" fill="#34A853"/><path d="M16.6 8.06L13.2 6.1 4.6 2.78c-.13-.05-.24-.06-.35-.04l8.18 8.55 4.17-4.23z" fill="#EA4335"/><path d="M4.25 21.26c.1.02.22 0 .35-.04l8.6-3.32 3.4-1.96-4.17-4.23-8.18 9.55z" fill="#FBBC04"/><path d="M16.6 8.06l-4.17 4.23 4.17 4.23 3.78-2.19c.6-.35.6-1.46 0-1.81L16.6 8.06z" fill="#4285F4"/></svg>
+            </span>
+            <span class="float-badge__text">
+              <span class="float-badge__num">6+ apps</span>
+              <span class="float-badge__sub">live on stores</span>
+            </span>
+          </div>
+        </div>
+      </details>
     </div>
+
+    <nav class="portfolio-index" aria-label="Portfolio sections">{{PORTFOLIO_INDEX}}</nav>
   </div>
 </section>

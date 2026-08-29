@@ -1,18 +1,16 @@
-<section id="work" class="border-t border-line bg-[linear-gradient(180deg,var(--color-paper),#f4f4f8)]">
-  <div class="container-x py-16 md:py-24">
-    <div class="flex flex-wrap items-end justify-between gap-4">
-      <div>
+<section id="work" class="casebook-section casebook-section--tinted" aria-labelledby="work-title">
+  <div class="container-x">
+    <div class="section-intro">
+      <div class="section-heading">
         <p class="eyebrow">Selected work</p>
-        <h2 class="section-title mt-3">Apps people actually use.</h2>
+        <h2 id="work-title" class="section-title">Apps people actually use.</h2>
       </div>
-      <p class="max-w-xs text-sm leading-relaxed text-muted">
+      <p class="section-intro__copy section-intro__copy--small">
         Swipe each gallery to flip through screens, just like browsing the store.
         Tap a badge to open the live listing.
       </p>
     </div>
 
-    <div class="mt-12 space-y-6">
-      {{PROJECTS}}
-    </div>
+    <div class="project-stack">{{PROJECTS}}</div>
   </div>
 </section>

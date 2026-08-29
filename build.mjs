@@ -4,6 +4,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import sharp from "sharp";
 import { site } from "./src/data/site.js";
 import { projects } from "./src/data/projects.js";
 import { careerStories } from "./src/data/career-stories.js";
@@ -14,6 +15,8 @@ const PARTIALS = path.join(SRC, "partials");
 const STORY_SOURCES = path.join(root, "career-stories");
 const DIST = path.join(root, "dist");
 const SITE_URL = "https://najm101.github.io/portfolio/";
+const imageManifest = new Map();
+const RESPONSIVE_IMAGE_WIDTHS = [320, 640, 960];
 
 const esc = (value = "") =>
   String(value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -46,12 +49,10 @@ async function resolveIncludes(html) {
 
 const bullets = (points, tone = "text-muted") =>
   points.length
-    ? `<ul class="mt-4 space-y-2 text-sm leading-relaxed ${tone}">${points
+    ? `<ul class="case-points ${tone}">${points
         .map(
           (point) =>
-            `<li class="relative pl-4 before:absolute before:left-0 before:top-[0.55rem] before:h-1 before:w-1.5 before:rounded-full before:bg-brand/60">${esc(
-              point,
-            )}</li>`,
+            `<li>${esc(point)}</li>`,
         )
         .join("")}</ul>`
     : "";
@@ -76,6 +77,77 @@ function storeBadge(store) {
 
 const PLACEHOLDER = `<div class="shot-placeholder"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.6"/><circle cx="8.5" cy="8.5" r="1.8" fill="currentColor"/><path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Screenshot<br>coming soon</span></div>`;
 
+function projectImageKey(projectSlug, image) {
+  return `${projectSlug}/${image}`;
+}
+
+async function prepareResponsiveImages() {
+  const sourceAssets = path.join(SRC, "assets");
+  const outputAssets = path.join(DIST, "assets");
+  await fs.mkdir(outputAssets, { recursive: true });
+  await fs.rm(path.join(outputAssets, "img"), { recursive: true, force: true });
+  await fs.cp(sourceAssets, outputAssets, { recursive: true });
+
+  const jobs = [];
+  for (const project of projects) {
+    for (const image of project.images) {
+      if (!String(image).includes(".")) continue;
+
+      jobs.push((async () => {
+        const sourcePath = path.join(sourceAssets, "img", project.slug, image);
+        const metadata = await sharp(sourcePath).metadata();
+        if (!metadata.width || !metadata.height) {
+          throw new Error(`Could not read dimensions for ${project.slug}/${image}.`);
+        }
+
+        const parsed = path.parse(image);
+        const widths = [...new Set([
+          ...RESPONSIVE_IMAGE_WIDTHS.filter((width) => width < metadata.width),
+          Math.min(metadata.width, RESPONSIVE_IMAGE_WIDTHS.at(-1)),
+        ])].sort((a, b) => a - b);
+
+        const variants = [];
+        for (const width of widths) {
+          const filename = `${parsed.name}-${width}w.webp`;
+          const outputPath = path.join(outputAssets, "img", project.slug, filename);
+          await sharp(sourcePath)
+            .resize({ width, withoutEnlargement: true })
+            .webp({ quality: 82, effort: 4 })
+            .toFile(outputPath);
+          variants.push({ width, filename });
+        }
+
+        imageManifest.set(projectImageKey(project.slug, image), {
+          width: metadata.width,
+          height: metadata.height,
+          variants,
+        });
+      })());
+    }
+  }
+
+  await Promise.all(jobs);
+}
+
+function responsiveImage(project, image, number, frame) {
+  const metadata = imageManifest.get(projectImageKey(project.slug, image));
+  if (!metadata) throw new Error(`Missing image metadata for ${project.slug}/${image}.`);
+
+  const base = `./assets/img/${project.slug}/`;
+  const srcset = metadata.variants
+    .map((variant) => `${base}${attr(variant.filename)} ${variant.width}w`)
+    .join(", ");
+  const sizes = frame === "tablet"
+    ? "(min-width: 1024px) 300px, 256px"
+    : frame === "framed"
+      ? "(min-width: 1024px) 420px, 280px"
+      : "(min-width: 1024px) 200px, 176px";
+
+  return `<picture><source type="image/webp" srcset="${srcset}" sizes="${sizes}" /><img src="${base}${attr(
+    image,
+  )}" alt="${attr(`${project.name} screenshot ${number}`)}" width="${metadata.width}" height="${metadata.height}" loading="lazy" decoding="async" /></picture>`;
+}
+
 async function buildGallery(project, templates) {
   const frame = project.frame || "phone";
   return project.images
@@ -83,14 +155,10 @@ async function buildGallery(project, templates) {
       const number = index + 1;
       const isReal = String(image).includes(".");
       const alt = attr(`${project.name} screenshot ${number}${isReal ? "" : " (coming soon)"}`);
-      const content = isReal
-        ? `<img src="./assets/img/${project.slug}/${attr(image)}" alt="${attr(
-            `${project.name} screenshot ${number}`,
-          )}" loading="lazy" decoding="async" />`
-        : PLACEHOLDER;
+      const content = isReal ? responsiveImage(project, image, number, frame) : PLACEHOLDER;
 
       if (frame === "framed") {
-        return `<figure class="shot-framed" role="group" aria-label="${alt}">${content}</figure>`;
+        return `<figure class="shot-framed" role="group" aria-label="${alt}" data-gallery-item>${content}</figure>`;
       }
 
       return fill(frame === "tablet" ? templates.tablet : templates.phone, {
@@ -130,10 +198,12 @@ async function buildProjects() {
   };
   const cards = [];
 
-  for (const project of projects) {
+  for (const [index, project] of projects.entries()) {
     cards.push(
       fill(cardTemplate, {
         SLUG: attr(project.slug),
+        NUMBER: String(index + 1).padStart(2, "0"),
+        ORIENTATION_CLASS: index % 2 === 1 ? "project-case--reverse" : "",
         CATEGORY: esc(project.category),
         STATUS_PILL: statusPill(project.status),
         NAME: esc(project.name),
@@ -145,6 +215,7 @@ async function buildProjects() {
         STORES: project.stores.map(storeBadge).join(""),
         STORY_LINKS: buildProjectStoryLinks(project),
         GALLERY: await buildGallery(project, templates),
+        GALLERY_COUNT: String(project.images.length),
       }),
     );
   }
@@ -171,9 +242,9 @@ function buildStats() {
   return site.stats
     .map(
       (stat) =>
-        `<div><dt class="font-display text-2xl font-extrabold tracking-tight">${esc(
+        `<div><dt>${esc(
           stat.value,
-        )}</dt><dd class="mt-1 text-xs leading-snug text-muted">${esc(stat.label)}</dd></div>`,
+        )}</dt><dd>${esc(stat.label)}</dd></div>`,
     )
     .join("");
 }
@@ -181,12 +252,12 @@ function buildStats() {
 function buildSkills() {
   return site.skills
     .map(
-      (group) =>
-        `<div class="card p-5 md:p-6"><h3 class="mb-4 font-mono text-xs uppercase tracking-[0.12em] text-muted">${esc(
-          group.group,
-        )}</h3><div class="flex flex-wrap gap-2">${group.items
+      (group, index) =>
+        `<article class="skill-case"><details class="responsive-disclosure skill-disclosure" data-responsive-disclosure data-disclosure-group="skills"><summary><span class="case-number">${String(
+          index + 1,
+        ).padStart(2, "0")}</span><h3>${esc(group.group)}</h3><span class="skill-disclosure__count">${group.items.length}</span><span class="disclosure-icon" aria-hidden="true"></span></summary><div class="skill-disclosure__body"><div class="chip-list">${group.items
           .map((item) => `<span class="chip">${esc(item)}</span>`)
-          .join("")}</div></div>`,
+          .join("")}</div></div></details></article>`,
     )
     .join("");
 }
@@ -195,7 +266,7 @@ function buildCertifications() {
   return site.certifications
     .map(
       (certification) =>
-        `<div><p class="font-semibold">${esc(certification.name)}</p><p class="text-sm text-muted">${esc(
+        `<div><p class="education-card__primary">${esc(certification.name)}</p><p class="education-card__secondary">${esc(
           certification.detail,
         )}</p></div>`,
     )
@@ -206,9 +277,9 @@ function buildLanguages() {
   return site.languages
     .map(
       (language) =>
-        `<div class="flex items-baseline justify-between gap-3 border-b border-line pb-2"><span class="font-medium">${esc(
+        `<div class="language-row"><span>${esc(
           language.name,
-        )}</span><span class="font-mono text-xs text-muted">${esc(language.level)}</span></div>`,
+        )}</span><span>${esc(language.level)}</span></div>`,
     )
     .join("");
 }
@@ -317,6 +388,7 @@ function inlineMarkdown(value) {
 function renderMarkdown(markdown) {
   const lines = markdown.split(/\r?\n/);
   const output = [];
+  const headings = [];
   const headingCounts = new Map();
   let paragraph = [];
   let list = null;
@@ -352,6 +424,7 @@ function renderMarkdown(markdown) {
       headingCounts.set(baseSlug, count);
       const id = count === 1 ? baseSlug : `${baseSlug}-${count}`;
       output.push(`<h${level} id="${attr(id)}">${inlineMarkdown(text)}</h${level}>`);
+      headings.push({ level, id, text });
       continue;
     }
 
@@ -372,7 +445,7 @@ function renderMarkdown(markdown) {
 
   flushParagraph();
   flushList();
-  return output.join("\n");
+  return { html: output.join("\n"), headings };
 }
 
 async function loadStories() {
@@ -395,13 +468,16 @@ async function loadStories() {
       if (shortVersion) publicMarkdown = removeSection(publicMarkdown, "Short version");
       publicMarkdown = publicMarkdown.replace(/^(#{2,4})\s+Detailed story in my voice\s*$/gm, "$1 The full story");
 
+      const rendered = renderMarkdown(publicMarkdown);
+
       return {
         ...story,
         number: String(index + 1).padStart(2, "0"),
         title,
         lead,
         cardSummary,
-        html: renderMarkdown(publicMarkdown),
+        html: rendered.html,
+        headings: rendered.headings,
       };
     }),
   );
@@ -409,10 +485,11 @@ async function loadStories() {
 
 async function buildChallenges(stories) {
   const template = await readPartial("challenge-card.html");
+  const spans = ["lg:col-span-7", "lg:col-span-5", "lg:col-span-5", "lg:col-span-7", "lg:col-span-12"];
   return stories
     .map((story, index) =>
       fill(template, {
-        GRID_CLASS: index === stories.length - 1 ? "md:col-span-2" : "",
+        GRID_CLASS: spans[index] || "lg:col-span-6",
         URL: `./career-stories/${attr(story.slug)}/`,
         NUMBER: story.number,
         THEME: esc(story.theme),
@@ -422,6 +499,38 @@ async function buildChallenges(stories) {
       }),
     )
     .join("\n");
+}
+
+function buildPortfolioIndex(stories) {
+  const items = [
+    { href: "about", label: "About", meta: "Profile" },
+    { href: "challenges", label: "Challenges", meta: `${stories.length} stories` },
+    { href: "work", label: "Work", meta: `${projects.length} projects` },
+    { href: "experience", label: "Experience", meta: `${site.experience.length} roles` },
+    { href: "skills", label: "Skills", meta: `${site.skills.length} groups` },
+  ];
+
+  return items
+    .map(
+      (item, index) =>
+        `<a href="#${item.href}" data-section-link><span class="portfolio-index__number">${String(index + 1).padStart(
+          2,
+          "0",
+        )}</span><span class="portfolio-index__label">${item.label}</span><span class="portfolio-index__meta">${item.meta}</span></a>`,
+    )
+    .join("");
+}
+
+function buildStoryToc(story) {
+  return story.headings
+    .filter((heading) => heading.level === 2)
+    .map(
+      (heading, index) =>
+        `<a href="#${attr(heading.id)}" data-story-toc-link><span>${String(index + 1).padStart(2, "0")}</span>${esc(
+          heading.text,
+        )}</a>`,
+    )
+    .join("");
 }
 
 function sharedTokens({ assetPrefix, homeUrl, pageDescription, pageTitle, pageType, pageUrl }) {
@@ -473,6 +582,7 @@ async function buildHome(stories) {
     THESIS: esc(site.thesis),
     SUMMARY: esc(site.summary),
     STATS: buildStats(),
+    PORTFOLIO_INDEX: buildPortfolioIndex(stories),
     CHALLENGES: await buildChallenges(stories),
     PROJECTS: await buildProjects(),
     EXPERIENCE: await buildExperience(),
@@ -509,6 +619,7 @@ async function buildStoryPages(stories) {
       STORY_TITLE: esc(story.title),
       STORY_LEAD: esc(story.lead),
       STORY_TAGS: story.tags.map((tag) => `<span class="chip">${esc(tag)}</span>`).join(""),
+      STORY_TOC: buildStoryToc(story),
       STORY_CONTENT: story.html,
     });
 
@@ -526,10 +637,10 @@ async function buildStoryPages(stories) {
 async function main() {
   const stories = await loadStories();
   await fs.mkdir(DIST, { recursive: true });
+  await prepareResponsiveImages();
   await buildHome(stories);
   await buildStoryPages(stories);
   await fs.writeFile(path.join(DIST, ".nojekyll"), "", "utf8");
-  await fs.cp(path.join(SRC, "assets"), path.join(DIST, "assets"), { recursive: true });
   await fs.copyFile(path.join(root, "resume.md"), path.join(DIST, "resume.md"));
 
   const size = (await fs.stat(path.join(DIST, "index.html"))).size;

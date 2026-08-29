@@ -1,27 +1,46 @@
-<article id="project-{{SLUG}}" class="card scroll-mt-24 overflow-hidden p-6 md:p-8">
-  <div class="grid gap-8 md:grid-cols-[0.85fr_1.15fr] md:items-center">
-    <div>
-      <div class="flex items-center justify-between gap-3">
-        <span class="chip">{{CATEGORY}}</span>
-        {{STATUS_PILL}}
+<article id="project-{{SLUG}}" class="project-anchor">
+  <details class="responsive-disclosure project-case {{ORIENTATION_CLASS}}" data-responsive-disclosure data-disclosure-group="projects">
+    <summary class="project-case__summary">
+      <span class="project-case__number">{{NUMBER}}</span>
+      <span class="project-case__identity">
+        <span class="project-case__eyeline"><span>{{CATEGORY}}</span>{{STATUS_PILL}}</span>
+        <h3>{{NAME}}</h3>
+        <span class="project-case__tagline">{{TAGLINE}}</span>
+      </span>
+      <span class="project-case__period">{{PERIOD}}</span>
+      <span class="disclosure-icon" aria-hidden="true"></span>
+    </summary>
+
+    <div class="project-case__body">
+      <div class="project-copy">
+        <p class="project-copy__blurb">{{BLURB}}</p>
+        {{POINTS}}
+        <div class="chip-list">{{TAGS}}</div>
+        <div class="badge-list">{{STORES}}</div>
+        {{STORY_LINKS}}
       </div>
 
-      <h3 class="mt-4 font-display text-2xl font-bold tracking-tight md:text-[1.75rem]">{{NAME}}</h3>
-      <p class="mt-1 text-muted">{{TAGLINE}}</p>
-      <p class="mt-1 font-mono text-xs text-muted">{{PERIOD}}</p>
-
-      <p class="mt-4 leading-relaxed text-ink/80">{{BLURB}}</p>
-      {{POINTS}}
-
-      <div class="mt-5 flex flex-wrap gap-2">{{TAGS}}</div>
-      <div class="mt-6 flex flex-wrap gap-3">{{STORES}}</div>
-      {{STORY_LINKS}}
-    </div>
-
-    <div class="min-w-0 md:order-last">
-      <div class="gallery min-w-0 -mx-2 px-2" role="region" aria-label="{{NAME}} screenshots" tabindex="0">
-        {{GALLERY}}
+      <div class="project-media">
+        <div class="gallery-shell">
+          <div class="gallery" role="region" aria-label="{{NAME}} screenshots" tabindex="0" data-gallery>
+            {{GALLERY}}
+          </div>
+          <div class="gallery-toolbar">
+            <p aria-live="polite">
+              <span data-gallery-count><span data-gallery-current>1</span> / {{GALLERY_COUNT}}</span>
+              <span data-gallery-static-label>{{GALLERY_COUNT}} screens</span>
+            </p>
+            <div>
+              <button type="button" data-gallery-prev aria-label="Previous {{NAME}} screenshot">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </button>
+              <button type="button" data-gallery-next aria-label="Next {{NAME}} screenshot">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+  </details>
 </article>

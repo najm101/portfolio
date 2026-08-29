@@ -1,43 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <!-- include: partials/head.html -->
-<body id="top">
-  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:rounded-lg focus:bg-brand focus:px-4 focus:py-2 focus:text-white">Skip to story</a>
+<body id="top" class="story-page">
+  <a href="#main-content" class="skip-link">Skip to story</a>
+  <div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
 
   <!-- include: partials/header.html -->
 
   <main id="main-content">
-    <header class="relative overflow-hidden border-b border-line">
-      <div class="pointer-events-none absolute inset-x-0 -top-40 h-80 bg-[radial-gradient(55%_70%_at_50%_0%,var(--color-brand-soft),transparent_72%)]" aria-hidden="true"></div>
-      <div class="container-x relative py-14 md:py-24">
-        <div class="mx-auto max-w-3xl">
-          <a href="{{HOME_URL}}#challenges" class="inline-flex items-center gap-2 text-sm font-semibold text-brand hover:underline">
-            <svg viewBox="0 0 24 24" fill="none" class="h-4 w-4" aria-hidden="true">
-              <path d="M19 12H5M11 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-            All selected challenges
-          </a>
-          <p class="eyebrow mt-10">{{STORY_THEME}}</p>
-          <h1 class="mt-4 font-display text-[clamp(2.4rem,8vw,4.5rem)] font-extrabold leading-[0.98] tracking-[-0.035em]">{{STORY_TITLE}}</h1>
-          <p class="mt-7 max-w-2xl text-lg leading-relaxed text-muted md:text-xl">{{STORY_LEAD}}</p>
-          <div class="mt-7 flex flex-wrap gap-2">{{STORY_TAGS}}</div>
-        </div>
+    <header class="story-hero">
+      <div class="story-hero__glow" aria-hidden="true"></div>
+      <div class="container-x story-hero__inner">
+        <a href="{{HOME_URL}}#challenges" class="back-link">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M19 12H5M11 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          All selected challenges
+        </a>
+        <p class="eyebrow">{{STORY_THEME}}</p>
+        <h1>{{STORY_TITLE}}</h1>
+        <p class="story-hero__lead">{{STORY_LEAD}}</p>
+        <div class="chip-list">{{STORY_TAGS}}</div>
       </div>
     </header>
 
-    <article class="container-x py-14 md:py-20">
-      <div class="story-content mx-auto max-w-3xl">
-        {{STORY_CONTENT}}
-      </div>
-      <div class="mx-auto mt-14 max-w-3xl border-t border-line pt-8">
-        <a href="{{HOME_URL}}#challenges" class="inline-flex items-center gap-2 text-sm font-semibold text-brand hover:underline">
-          <svg viewBox="0 0 24 24" fill="none" class="h-4 w-4" aria-hidden="true">
+    <div class="container-x story-shell">
+      <aside class="story-aside" aria-label="Story navigation">
+        <nav class="story-toc story-toc--desktop" aria-label="On this page">{{STORY_TOC}}</nav>
+        <details class="story-toc-mobile">
+          <summary>
+            <span>On this page</span>
+            <span class="disclosure-icon" aria-hidden="true"></span>
+          </summary>
+          <nav aria-label="Story sections">{{STORY_TOC}}</nav>
+        </details>
+      </aside>
+
+      <article class="story-content" data-story-content>{{STORY_CONTENT}}</article>
+
+      <div class="story-return">
+        <a href="{{HOME_URL}}#challenges" class="back-link">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M19 12H5M11 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
           Back to selected challenges
         </a>
       </div>
-    </article>
+    </div>
   </main>
 
   <!-- include: partials/contact.html -->
