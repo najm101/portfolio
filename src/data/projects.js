@@ -39,24 +39,21 @@ export const projects = [
     name: "Invoice Star",
     tagline: "Full-stack invoicing & billing",
     category: "Fintech",
-    period: "2026 – Present",
-    status: "live",
+    period: "2026",
+    status: "archived",
     frame: "phone",
     blurb:
       "A product I built across Flutter, React and TypeScript, ASP.NET Core, PostgreSQL, billing, media processing, and self-hosted deployment.",
     points: [
       "Used feature-first Clean Architecture, Cubit, dependency injection, guarded routing, and English and Arabic interfaces.",
       "Built the public React web app and an ASP.NET Core API with PostgreSQL, JWT sessions, RabbitMQ, and Cloudflare R2.",
-      "Used RevenueCat as the billing source of truth and pushed changes over WebSockets. ZATCA e-invoicing is still in progress.",
+      "Used RevenueCat as the billing source of truth and pushed changes over WebSockets. ZATCA e-invoicing was partially built. The app has since been retired.",
     ],
     tags: ["Flutter", "React", "TypeScript", "ASP.NET Core", "PostgreSQL", "RabbitMQ"],
     stories: [
       { label: "Read the full-stack ownership story", slug: "invoice-star-full-stack-product-ownership" },
     ],
-    stores: [
-      { type: "app-store", label: "App Store", url: "https://apps.apple.com/app/id6757845435" },
-      { type: "web", label: "invoicestar.online", url: "https://invoicestar.online" },
-    ],
+    stores: [],
     images: ["01.png", "02.png", "03.png", "04.png", "05.png"],
   },
   {
