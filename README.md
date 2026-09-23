@@ -101,4 +101,5 @@ npm run media:linkedin -- wgbah   # one project
 ```
 
 It needs a Chromium: set `CHROME_PATH` to your Chrome binary, or run
-`npx playwright install chromium` once.
+`npx playwright install chromium` once. Details, design notes and how to add a
+new project: [`linkedin/README.md`](linkedin/README.md).

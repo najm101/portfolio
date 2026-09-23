@@ -1,0 +1,9 @@
+# Notes for Claude
+
+- Site structure, build and screenshot conventions: see `README.md`.
+- LinkedIn project images (1920×1080 per project, in `linkedin/out/`): see
+  `linkedin/README.md` for how they're generated, how to add a new project, and
+  known gotchas. Re-render with `npm run media:linkedin -- <slug>` (in the
+  cloud container, prefix
+  `CHROME_PATH=/opt/pw-browsers/chromium-1194/chrome-linux/chrome`; check
+  `ls /opt/pw-browsers` if that version folder is gone).

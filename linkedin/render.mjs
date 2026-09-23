@@ -46,7 +46,13 @@ const browser = await chromium.launch(
 const page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
 
 for (const project of selected) {
-  const picks = PICKS[project.slug] ?? project.images.slice(0, 3);
+  // No PICKS entry: use the first three real screenshots ("01"-style entries
+  // without an extension are "coming soon" placeholders on the site).
+  const picks = PICKS[project.slug] ?? project.images.filter((f) => /\.\w+$/.test(f)).slice(0, 3);
+  if (!picks.length) {
+    console.warn(`– ${project.slug}: no screenshots, skipped`);
+    continue;
+  }
   await page.goto(pathToFileURL(path.join(here, "template.html")).href);
   await page.evaluate((data) => window.renderCard(data), {
     name: project.name,
