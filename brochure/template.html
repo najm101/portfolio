@@ -1,0 +1,579 @@
+<!doctype html>
+<!--
+  Project brochure template (A4 portrait, printed to PDF).
+  brochure/render.mjs opens this page, calls window.renderBrochure(data) and
+  prints it with Chromium, which keeps every <a href> clickable in the PDF.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Abdelrahman Negm — Selected Projects</title>
+<style>
+  @font-face {
+    font-family: "Bricolage Grotesque";
+    font-weight: 500 800;
+    src: url("../src/assets/fonts/bricolage-grotesque-latin.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: "Inter";
+    font-weight: 400 700;
+    src: url("../src/assets/fonts/inter-latin.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: "IBM Plex Mono";
+    font-weight: 500;
+    src: url("../src/assets/fonts/ibm-plex-mono-500-latin.woff2") format("woff2");
+  }
+
+  /* Same tokens as src/styles.css */
+  :root {
+    --paper: #f7f7f4;
+    --surface: #ffffff;
+    --line: #dfdfe5;
+    --ink: #17171c;
+    --muted: #686873;
+    --brand: #3d2ee0;
+    --brand-soft: #ece9ff;
+    --live: #087a55;
+    --bezel: linear-gradient(160deg, #3a3a47, #16161c);
+  }
+
+  @page { size: A4; margin: 0; }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Inter", system-ui, sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .page {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 210mm;
+    height: 297mm;
+    overflow: hidden;
+    padding: 16mm 16mm 12mm;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(61, 46, 224, 0.07), transparent 110mm),
+      var(--paper);
+    break-after: page;
+  }
+
+  .page:last-child { break-after: auto; }
+
+  .mono {
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .running {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 4mm;
+    border-bottom: 1px solid var(--line);
+    font-size: 7.5pt;
+    color: var(--muted);
+  }
+
+  .running a:hover { color: var(--brand); }
+
+  .foot {
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 4mm;
+    border-top: 1px solid var(--line);
+    font-size: 7.5pt;
+    color: var(--muted);
+  }
+
+  .foot a { color: var(--ink); }
+
+  /* ---------- Cover ---------- */
+
+  .cover__kicker { margin-top: 18mm; font-size: 8.5pt; color: var(--brand); }
+
+  .cover h1 {
+    margin-top: 6mm;
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-weight: 800;
+    font-size: 50pt;
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+  }
+
+  .cover__headline {
+    margin-top: 4mm;
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-weight: 600;
+    font-size: 17pt;
+    color: var(--muted);
+  }
+
+  .cover__thesis {
+    max-width: 150mm;
+    margin-top: 8mm;
+    font-size: 12pt;
+    line-height: 1.55;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4mm;
+    margin-top: 10mm;
+  }
+
+  .stat {
+    padding: 5mm 5mm 4.5mm;
+    border: 1px solid var(--line);
+    border-radius: 4mm;
+    background: var(--surface);
+  }
+
+  .stat__value {
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-weight: 800;
+    font-size: 24pt;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--brand);
+  }
+
+  .stat__label { margin-top: 2mm; font-size: 9pt; color: var(--muted); }
+
+  .index { margin-top: 12mm; }
+
+  .index__title { font-size: 8pt; color: var(--muted); }
+
+  .index__list { margin-top: 3mm; list-style: none; border-top: 1px solid var(--line); }
+
+  .index__item a {
+    display: grid;
+    grid-template-columns: 9mm 1fr auto 8mm;
+    align-items: baseline;
+    gap: 3mm;
+    padding: 3.2mm 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .index__num, .index__page { font-size: 8pt; color: var(--muted); }
+  .index__page { text-align: right; }
+
+  .index__name {
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-weight: 700;
+    font-size: 13pt;
+    letter-spacing: -0.01em;
+  }
+
+  .index__tagline { margin-left: 2mm; font-size: 9.5pt; color: var(--muted); }
+  .index__cat { font-size: 7.5pt; color: var(--brand); }
+
+  .contact {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-content: space-between;
+    gap: 3mm 6mm;
+    margin-top: auto;
+    margin-bottom: 6mm;
+    font-size: 9pt;
+  }
+
+  .contact__label { display: block; font-size: 7pt; color: var(--muted); }
+  .contact a, .contact strong { color: var(--ink); font-weight: 600; }
+
+  /* ---------- Project page ---------- */
+
+  .proj__head { margin-top: 6mm; }
+
+  .proj__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 3mm;
+    font-size: 8pt;
+    color: var(--brand);
+  }
+
+  .proj__eyebrow .sep { width: 6mm; height: 1px; background: currentColor; opacity: 0.4; }
+  .proj__eyebrow .period { color: var(--muted); }
+
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.6mm;
+    margin-left: auto;
+    padding: 1mm 2.6mm;
+    border-radius: 999px;
+    background: rgba(8, 122, 85, 0.1);
+    color: var(--live);
+    font-size: 7pt;
+  }
+
+  .status::before {
+    content: "";
+    width: 1.6mm;
+    height: 1.6mm;
+    border-radius: 999px;
+    background: currentColor;
+  }
+
+  .status--archived { background: rgba(104, 104, 115, 0.12); color: var(--muted); }
+
+  .proj h1 {
+    margin-top: 3.5mm;
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-weight: 800;
+    font-size: 34pt;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .proj__tagline { margin-top: 2mm; font-size: 13pt; color: var(--muted); }
+
+  .role {
+    display: flex;
+    align-items: baseline;
+    gap: 3mm;
+    margin-top: 5mm;
+    padding: 3mm 4mm;
+    border-left: 2px solid var(--brand);
+    border-radius: 0 2.5mm 2.5mm 0;
+    background: var(--brand-soft);
+    font-size: 10pt;
+  }
+
+  .role__label { flex: none; font-size: 7pt; color: var(--brand); }
+
+  .stage {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7mm;
+    height: 94mm;
+    margin-top: 5mm;
+    border-radius: 6mm;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.85), transparent 60%),
+      radial-gradient(circle at 100% 100%, rgba(61, 46, 224, 0.2), transparent 55%),
+      linear-gradient(160deg, #f1efff, #dcd6ff);
+  }
+
+  /* Frames mirror the site's gallery (.phone / .tablet / .shot-framed) */
+  .phone {
+    width: 39mm;
+    padding: 1.6mm;
+    border-radius: 7mm;
+    background: var(--bezel);
+    box-shadow: 0 6mm 10mm -6mm rgba(23, 23, 28, 0.6);
+  }
+
+  .phone__screen {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 9 / 19.5;
+    border-radius: 5.4mm;
+    background: var(--surface);
+  }
+
+  .phone__notch {
+    position: absolute;
+    top: 1.5mm;
+    left: 50%;
+    z-index: 2;
+    width: 11mm;
+    height: 3mm;
+    transform: translateX(-50%);
+    border-radius: 999px;
+    background: #111116;
+  }
+
+  .tablet {
+    width: 48mm;
+    padding: 2mm;
+    border-radius: 4.5mm;
+    background: var(--bezel);
+    box-shadow: 0 6mm 10mm -6mm rgba(23, 23, 28, 0.6);
+  }
+
+  .tablet__screen {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 185 / 296;
+    border-radius: 2.5mm;
+    background: var(--surface);
+  }
+
+  .tablet__cam {
+    position: absolute;
+    top: 1mm;
+    left: 50%;
+    z-index: 2;
+    width: 1mm;
+    height: 1mm;
+    transform: translateX(-50%);
+    border-radius: 999px;
+    background: #2a2a33;
+  }
+
+  .phone__screen img,
+  .tablet__screen img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .framed {
+    height: 81mm;
+    overflow: hidden;
+    border-radius: 3.5mm;
+    background: var(--surface);
+    box-shadow: 0 0 0 0.3mm rgba(23, 23, 28, 0.06), 0 6mm 10mm -6mm rgba(23, 23, 28, 0.5);
+  }
+
+  .framed img { display: block; height: 100%; width: auto; }
+
+  .body {
+    display: grid;
+    grid-template-columns: 1fr 64mm;
+    gap: 9mm;
+    margin-top: 6mm;
+  }
+
+  .label {
+    margin-bottom: 2mm;
+    font-size: 7.5pt;
+    color: var(--muted);
+  }
+
+  .overview { font-size: 10.5pt; line-height: 1.6; }
+
+  .did { margin-top: 5mm; }
+
+  .did ul { list-style: none; }
+
+  .did li {
+    position: relative;
+    padding-left: 4.5mm;
+    margin-top: 1.8mm;
+    font-size: 9.5pt;
+    line-height: 1.55;
+  }
+
+  .did li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 2.1mm;
+    width: 1.6mm;
+    height: 1.6mm;
+    border-radius: 0.4mm;
+    background: var(--brand);
+    opacity: 0.8;
+  }
+
+  .side > * + * { margin-top: 5mm; }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 1.6mm; }
+
+  .tag {
+    padding: 0.9mm 2.4mm;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface);
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 500;
+    font-size: 7.5pt;
+  }
+
+  .badges { display: flex; flex-direction: column; align-items: flex-start; gap: 2.5mm; }
+
+  /* Apple and Google ask for both badges at the same height. */
+  .badges img { display: block; height: 11.5mm; width: auto; }
+
+  .alt-link, .story-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.5mm;
+    font-size: 9pt;
+    font-weight: 600;
+    color: var(--brand);
+  }
+
+  .alt-link {
+    padding: 2.2mm 3.4mm;
+    border: 1px solid var(--line);
+    border-radius: 2.2mm;
+    background: var(--surface);
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  .stories { display: flex; flex-direction: column; gap: 1.8mm; }
+
+  .unavailable { font-size: 9pt; color: var(--muted); }
+
+  /* Screen preview: show pages as sheets. */
+  @media screen {
+    body { background: #d9d9de; padding: 10mm 0; }
+    .page { margin: 0 auto 10mm; box-shadow: 0 2mm 8mm rgba(0, 0, 0, 0.15); }
+  }
+</style>
+</head>
+<body>
+<main id="doc"></main>
+
+<script>
+  const esc = (s = "") =>
+    String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+  const running = (d, right) => `
+    <header class="running mono">
+      <a href="#cover">${esc(d.site.name)} · Selected projects</a>
+      <span>${right}</span>
+    </header>`;
+
+  const footer = (d, pageNo) => `
+    <footer class="foot">
+      <span><a href="${esc(d.site.portfolio)}">${esc(d.site.portfolioLabel)}</a> · <a href="mailto:${esc(d.site.email)}">${esc(d.site.email)}</a></span>
+      <span class="mono">${String(pageNo).padStart(2, "0")}</span>
+    </footer>`;
+
+  function cover(d) {
+    const s = d.site;
+    return `
+    <section class="page cover" id="cover">
+      <p class="cover__kicker mono">Selected projects · ${esc(d.year)}</p>
+      <h1>${esc(s.name)}</h1>
+      <p class="cover__headline">${esc(s.headline)}</p>
+      <p class="cover__thesis">${esc(s.thesis)}</p>
+      <div class="stats">
+        ${s.stats.map((x) => `<div class="stat"><div class="stat__value">${esc(x.value)}</div><div class="stat__label">${esc(x.label)}</div></div>`).join("")}
+      </div>
+      <nav class="index">
+        <p class="index__title mono">In this brochure</p>
+        <ol class="index__list">
+          ${d.projects.map((p, i) => `
+          <li class="index__item"><a href="#${esc(p.slug)}">
+            <span class="index__num mono">${String(i + 1).padStart(2, "0")}</span>
+            <span><span class="index__name">${esc(p.name)}</span><span class="index__tagline">${esc(p.tagline)}</span></span>
+            <span class="index__cat mono">${esc(p.category)}</span>
+            <span class="index__page mono">p.${i + 2}</span>
+          </a></li>`).join("")}
+        </ol>
+      </nav>
+      <div class="contact">
+        ${s.contacts.map((c) => `<p><span class="contact__label mono">${esc(c.label)}</span>${c.href ? `<a href="${esc(c.href)}">${esc(c.text)}</a>` : `<strong>${esc(c.text)}</strong>`}</p>`).join("")}
+      </div>
+      ${footer(d, 1)}
+    </section>`;
+  }
+
+  function shot(frame, src) {
+    if (frame === "phone") {
+      return `<div class="phone"><div class="phone__screen"><span class="phone__notch"></span><img src="${src}" alt=""></div></div>`;
+    }
+    if (frame === "tablet") {
+      return `<div class="tablet"><div class="tablet__screen"><span class="tablet__cam"></span><img src="${src}" alt=""></div></div>`;
+    }
+    return `<div class="framed"><img src="${src}" alt=""></div>`;
+  }
+
+  function projectPage(d, p, i) {
+    const badges = p.stores
+      .filter((s) => d.badges[s.type])
+      .map((s) => `<a href="${esc(s.url)}" title="${esc(s.label)}"><img src="${d.badges[s.type]}" alt="${esc(s.label)}"></a>`)
+      .join("");
+    const others = p.stores
+      .filter((s) => !d.badges[s.type])
+      .map((s) => `<a class="alt-link" href="${esc(s.url)}">${esc(s.linkText)} ↗</a>`)
+      .join("");
+
+    let availability;
+    if (badges || others) {
+      availability = `<div><p class="label mono">Get the app</p><div class="badges">${badges}${others}</div></div>`;
+    } else {
+      availability = `<div><p class="label mono">Availability</p><p class="unavailable">${esc(p.unavailableText)}</p></div>`;
+    }
+
+    const stories = p.stories.length
+      ? `<div><p class="label mono">Full story</p><div class="stories">${p.stories
+          .map((s) => `<a class="story-link" href="${esc(s.url)}">${esc(s.title)} ↗</a>`)
+          .join("")}</div></div>`
+      : "";
+
+    return `
+    <section class="page proj" id="${esc(p.slug)}">
+      ${running(d, `${String(i + 1).padStart(2, "0")} / ${String(d.projects.length).padStart(2, "0")}`)}
+      <div class="proj__head">
+        <p class="proj__eyebrow mono">
+          <span>${esc(p.category)}</span><span class="sep"></span><span class="period">${esc(p.period)}</span>
+          <span class="status mono ${p.status === "live" ? "" : "status--archived"}">${p.status === "live" ? "Live" : "Archived"}</span>
+        </p>
+        <h1>${esc(p.name)}</h1>
+        <p class="proj__tagline">${esc(p.tagline)}</p>
+        <p class="role"><span class="role__label mono">My role</span><span>${esc(p.role)}</span></p>
+      </div>
+      <div class="stage">${p.images.map((src) => shot(p.frame, src)).join("")}</div>
+      <div class="body">
+        <div>
+          <p class="label mono">Overview</p>
+          <p class="overview">${esc(p.blurb)}</p>
+          ${p.points.length ? `<div class="did"><p class="label mono">Highlights</p><ul>${p.points.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}
+        </div>
+        <aside class="side">
+          ${availability}
+          <div><p class="label mono">Stack</p><div class="tags">${p.tags.map((t) => `<span class="tag">${esc(t)}</span>`).join("")}</div></div>
+          ${stories}
+        </aside>
+      </div>
+      ${footer(d, i + 2)}
+    </section>`;
+  }
+
+  const loaded = (img) =>
+    img.complete ? Promise.resolve() : new Promise((r) => { img.onload = img.onerror = r; });
+
+  window.renderBrochure = async (d) => {
+    document.getElementById("doc").innerHTML =
+      cover(d) + d.projects.map((p, i) => projectPage(d, p, i)).join("");
+    await Promise.all([
+      document.fonts.load('800 50pt "Bricolage Grotesque"'),
+      document.fonts.load('600 17pt "Bricolage Grotesque"'),
+      document.fonts.load('400 10pt "Inter"'),
+      document.fonts.load('600 10pt "Inter"'),
+      document.fonts.load('500 8pt "IBM Plex Mono"'),
+    ]);
+    await document.fonts.ready;
+    await Promise.all([...document.images].map(loaded));
+
+    // Report pages whose content overflows the sheet or crowds the footer
+    // (anything within 4mm of it).
+    const mm = 96 / 25.4;
+    return [...document.querySelectorAll(".page")]
+      .filter((pg) => {
+        const footTop = pg.querySelector(".foot").getBoundingClientRect().top;
+        const content = [...pg.children].filter((el) => !el.matches(".foot"));
+        const bottom = Math.max(...content.flatMap((el) => [el, ...el.querySelectorAll("*")]).map((el) => el.getBoundingClientRect().bottom));
+        return pg.scrollHeight > pg.clientHeight + 1 || bottom > footTop - 4 * mm;
+      })
+      .map((pg) => pg.id);
+  };
+</script>
+</body>
+</html>

@@ -38,11 +38,11 @@ CHROME_PATH=/opt/pw-browsers/chromium-1194/chrome-linux/chrome npm run media:lin
 
 1. Add it to `src/data/projects.js` as usual, with screenshots in
    `src/assets/img/<slug>/` and a `frame` of `phone`, `tablet` or `framed`.
-2. Optional: add an entry to `PICKS` at the top of `render.mjs` to choose which
-   three screenshots appear and in what order. **The middle one is shown in
-   front**, so put the strongest screen there. Without an entry, the first three
-   real images are used (`"01"`-style placeholders are ignored; a project with
-   no real images is skipped).
+2. Optional: set the project's `featured` list in `src/data/projects.js` to
+   choose which three screenshots appear and in what order. **The middle one
+   is shown in front**, so put the strongest screen there. Without it, the first
+   three real images are used (`"01"`-style placeholders are ignored; a project
+   with no real images is skipped). The PDF brochure uses the same list.
 3. Run `npm run media:linkedin -- <slug>`, look at `out/<slug>.png`, and commit it.
 
 The layout also handles one or two screenshots, and more than three,
@@ -96,6 +96,9 @@ the portfolio:
   fixes it and also sharpens the site.
 - App Store / Play Store pages are blocked from the cloud container, so
   higher-res versions couldn't be pulled from there.
-- In the cloud container, `sharp` refused to read these PNG/JPGs ("unsupported
-  image format"), which is one reason this renders through Chromium instead of
-  compositing with sharp.
+- Rendering is through Chromium rather than compositing with `sharp`, because
+  the frames, shadows and type are much easier in HTML/CSS. (`sharp` itself
+  works fine: `import sharp from "sharp"`.)
+- `renderCard` loads the fonts explicitly before `fitTitle()` measures the
+  title. With only `document.fonts.ready`, the title was sometimes measured
+  in the fallback font and came out a different size between runs.

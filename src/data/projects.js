@@ -7,6 +7,10 @@
 //
 // To add or change screenshots: drop files into src/assets/img/<slug>/ and list
 // their filenames (in order) in that project's `images` array, then `npm run build`.
+//
+// `role` and `featured` are used by the LinkedIn images (linkedin/) and the PDF
+// brochure (brochure/), not by the site: `role` is a one-line summary of my part
+// in the project, `featured` the three screenshots to show (middle = hero shot).
 
 export const projects = [
   {
@@ -14,6 +18,7 @@ export const projects = [
     name: "Roze Moon",
     tagline: "E-commerce app, iOS & Android",
     category: "E-commerce",
+    role: "Junior Mobile Engineer at Tuwaiq · took ownership of the app end to end",
     period: "Jul 2024 – Present",
     status: "live",
     frame: "framed",
@@ -33,12 +38,14 @@ export const projects = [
       { type: "play-store", label: "Play Store", url: "https://play.google.com/store/apps/details?id=com.rozemoon.app" },
     ],
     images: ["01.jpg", "02.jpg", "03.jpg"],
+    featured: ["02.jpg", "01.jpg", "03.jpg"],
   },
   {
     slug: "invoice-star",
     name: "Invoice Star",
     tagline: "Full-stack invoicing & billing",
     category: "Fintech",
+    role: "Solo builder · mobile, web, backend, billing, and deployment",
     period: "2026",
     status: "archived",
     frame: "phone",
@@ -55,12 +62,14 @@ export const projects = [
     ],
     stores: [],
     images: ["01.png", "02.png", "03.png", "04.png", "05.png"],
+    featured: ["02.png", "01.png", "05.png"],
   },
   {
     slug: "khedma",
     name: "Khedma",
     tagline: "Self-service POS donations",
     category: "POS / Kiosk",
+    role: "Sole mobile engineer at Osmacc (Amaal) · designed, built, and shipped solo",
     period: "Aug 2025 – Present",
     status: "live",
     frame: "tablet",
@@ -81,12 +90,14 @@ export const projects = [
       { type: "github", label: "Releases", url: "https://github.com/najm101/khedma-releases" },
     ],
     images: ["01.png", "02.png", "03.png"],
+    featured: ["02.png", "01.png", "03.png"],
   },
   {
     slug: "tawqet",
     name: "Tawqet",
     tagline: "Attendance app for HR",
     category: "HR",
+    role: "Sole mobile engineer at Osmacc (Amaal) · designed, built, and shipped solo",
     period: "Feb 2025 – Present",
     status: "live",
     frame: "framed",
@@ -102,12 +113,14 @@ export const projects = [
       { type: "play-store", label: "Play Store", url: "https://play.google.com/store/apps/details?id=online.amaal.app" },
     ],
     images: ["01.png", "02.png", "03.png"],
+    featured: ["02.png", "01.png", "03.png"],
   },
   {
     slug: "wgbah",
     name: "Wgbah",
     tagline: "Internal food ordering",
     category: "Internal tools",
+    role: "Sole mobile engineer at Osmacc (Amaal) · designed, built, and shipped solo",
     period: "Apr 2025 – Present",
     status: "live",
     frame: "phone",
@@ -122,12 +135,14 @@ export const projects = [
       { type: "play-store", label: "Play Store", url: "https://play.google.com/store/apps/details?id=com.wgbah.app" },
     ],
     images: ["01.png", "02.png", "03.png", "04.png", "05.png", "06.png"],
+    featured: ["05.png", "02.png", "04.png"],
   },
   {
     slug: "steamdeck-checker",
     name: "SteamDeck: Game Compatibility",
     tagline: "Compatibility checker for gamers",
     category: "Utility",
+    role: "Personal project · built and published on Google Play",
     period: "Oct 2022 – Present",
     status: "live",
     frame: "framed",
@@ -139,5 +154,6 @@ export const projects = [
       { type: "play-store", label: "Play Store", url: "https://play.google.com/store/apps/details?id=com.negm.deck_verfied_checker" },
     ],
     images: ["01.png", "02.png", "03.png", "04.png", "05.png", "06.png"],
+    featured: ["03.png", "05.png", "04.png"],
   },
 ];

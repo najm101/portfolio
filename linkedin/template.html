@@ -393,6 +393,15 @@
       .map((src) => `<div class="shot">${shotMarkup(data.frame, src)}</div>`)
       .join("");
 
+    // Load the faces explicitly: fonts.ready alone can resolve before the
+    // browser has started fetching them, which makes fitTitle() measure the
+    // fallback font.
+    await Promise.all([
+      document.fonts.load('800 116px "Bricolage Grotesque"'),
+      document.fonts.load('400 38px "Inter"'),
+      document.fonts.load('600 26px "Inter"'),
+      document.fonts.load('500 22px "IBM Plex Mono"'),
+    ]);
     await document.fonts.ready;
     await Promise.all([...document.images].map(loaded));
     fitTitle();

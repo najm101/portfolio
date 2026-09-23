@@ -92,8 +92,8 @@ output as-is.
 
 `linkedin/render.mjs` turns each project into a 1920×1080 PNG for the
 LinkedIn "Projects → Media" slot, using `linkedin/template.html` and the copy
-from `src/data/projects.js`. The three screenshots per card are picked in
-`PICKS` at the top of the script.
+from `src/data/projects.js`. The three screenshots per card come from each
+project's `featured` list.
 
 ```bash
 npm run media:linkedin            # all projects → linkedin/out/<slug>.png
@@ -103,3 +103,11 @@ npm run media:linkedin -- wgbah   # one project
 It needs a Chromium: set `CHROME_PATH` to your Chrome binary, or run
 `npx playwright install chromium` once. Details, design notes and how to add a
 new project: [`linkedin/README.md`](linkedin/README.md).
+
+## Projects brochure (PDF)
+
+`npm run media:brochure` builds `brochure/out/Abdelrahman-Negm-Projects.pdf`,
+an A4 brochure to send with the CV: a cover, then one page per project with
+screenshots, role, overview, highlights, stack, clickable official App Store /
+Google Play badges, and links to the full stories. See
+[`brochure/README.md`](brochure/README.md).
