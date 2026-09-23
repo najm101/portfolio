@@ -1,0 +1,421 @@
+<!doctype html>
+<!--
+  LinkedIn project media template (1920×1080).
+  Rendered by linkedin/render.mjs, which opens this page and calls
+  window.renderCard(data). Open it directly in a browser to preview the
+  sample project below.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Project media</title>
+<style>
+  @font-face {
+    font-family: "Bricolage Grotesque";
+    font-weight: 500 800;
+    src: url("../src/assets/fonts/bricolage-grotesque-latin.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: "Inter";
+    font-weight: 400 700;
+    src: url("../src/assets/fonts/inter-latin.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: "IBM Plex Mono";
+    font-weight: 500;
+    src: url("../src/assets/fonts/ibm-plex-mono-500-latin.woff2") format("woff2");
+  }
+
+  /* Same tokens as src/styles.css */
+  :root {
+    --paper: #f7f7f4;
+    --surface: #ffffff;
+    --line: #dfdfe5;
+    --ink: #17171c;
+    --muted: #686873;
+    --brand: #3d2ee0;
+    --brand-soft: #ece9ff;
+    --live: #087a55;
+    --bezel: linear-gradient(160deg, #3a3a47, #16161c);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body { width: 1920px; height: 1080px; overflow: hidden; }
+
+  body {
+    background:
+      radial-gradient(circle at 0% 0%, rgba(61, 46, 224, 0.06), transparent 900px),
+      var(--paper);
+    color: var(--ink);
+    font-family: "Inter", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .card {
+    display: grid;
+    grid-template-columns: 700px 1fr;
+    gap: 56px;
+    width: 100%;
+    height: 100%;
+    padding: 64px 64px 64px 112px;
+  }
+
+  /* ---------- Copy column ---------- */
+
+  .copy {
+    display: flex;
+    flex-direction: column;
+    padding: 24px 0 40px;
+  }
+
+  .head { margin-block: auto; }
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 500;
+    font-size: 22px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--brand);
+  }
+
+  .eyebrow__sep { width: 32px; height: 2px; background: currentColor; opacity: 0.4; }
+  .eyebrow__period { color: var(--muted); }
+
+  h1 {
+    margin-top: 36px;
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-weight: 800;
+    font-size: 116px;
+    line-height: 0.96;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+
+  .tagline {
+    margin-top: 28px;
+    max-width: 620px;
+    font-size: 38px;
+    line-height: 1.25;
+    color: var(--muted);
+    text-wrap: balance;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 48px;
+  }
+
+  .tag {
+    padding: 11px 20px;
+    border: 1.5px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface);
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 500;
+    font-size: 21px;
+    color: var(--ink);
+  }
+
+  .foot { margin-top: 48px; }
+
+  .status {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .status__dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    background: var(--live);
+    box-shadow: 0 0 0 6px rgba(8, 122, 85, 0.14);
+  }
+
+  .status--archived .status__dot {
+    background: var(--muted);
+    box-shadow: 0 0 0 6px rgba(104, 104, 115, 0.14);
+  }
+
+  .byline {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-top: 32px;
+    padding-top: 28px;
+    border-top: 1.5px solid var(--line);
+    font-size: 24px;
+    color: var(--muted);
+  }
+
+  .byline__who { display: flex; flex-direction: column; gap: 6px; }
+  .byline strong { color: var(--ink); font-weight: 600; font-size: 26px; }
+
+  .byline__url {
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 500;
+    font-size: 20px;
+    padding-bottom: 3px;
+  }
+
+  /* ---------- Screenshot stage ---------- */
+
+  .stage {
+    position: relative;
+    overflow: hidden;
+    border-radius: 48px;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.85), transparent 60%),
+      radial-gradient(circle at 100% 100%, rgba(61, 46, 224, 0.22), transparent 55%),
+      linear-gradient(160deg, #f1efff, #dcd6ff);
+  }
+
+  .stage::after {
+    /* faint dot grid */
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(61, 46, 224, 0.13) 1.5px, transparent 1.5px);
+    background-size: 28px 28px;
+    mask-image: linear-gradient(180deg, transparent, #000 70%);
+    pointer-events: none;
+  }
+
+  .shots {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .shot {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform-origin: center;
+  }
+
+  /* Phone bezel (matches the site's .phone, scaled up) */
+  .phone {
+    width: 372px;
+    padding: 15px;
+    border-radius: 58px;
+    background: var(--bezel);
+    box-shadow:
+      inset 0 0 0 1.5px rgba(255, 255, 255, 0.08),
+      0 50px 90px -40px rgba(23, 23, 28, 0.7),
+      0 20px 40px -24px rgba(23, 23, 28, 0.4);
+  }
+
+  .phone__screen {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 9 / 19.5;
+    border-radius: 45px;
+    background: var(--surface);
+  }
+
+  .phone__notch {
+    position: absolute;
+    top: 13px;
+    left: 50%;
+    z-index: 2;
+    width: 92px;
+    height: 26px;
+    transform: translateX(-50%);
+    border-radius: 999px;
+    background: #111116;
+  }
+
+  /* Tablet bezel (matches the site's .tablet, scaled up) */
+  .tablet {
+    width: 480px;
+    padding: 18px;
+    border-radius: 40px;
+    background: var(--bezel);
+    box-shadow:
+      inset 0 0 0 1.5px rgba(255, 255, 255, 0.08),
+      0 50px 90px -40px rgba(23, 23, 28, 0.7),
+      0 20px 40px -24px rgba(23, 23, 28, 0.4);
+  }
+
+  .tablet__screen {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 185 / 296;
+    border-radius: 22px;
+    background: var(--surface);
+  }
+
+  .tablet__cam {
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    z-index: 2;
+    width: 8px;
+    height: 8px;
+    transform: translateX(-50%);
+    border-radius: 999px;
+    background: #2a2a33;
+  }
+
+  .phone__screen img,
+  .tablet__screen img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  /* Store-style images that already include their own device frame */
+  .framed {
+    height: 800px;
+    overflow: hidden;
+    border-radius: 30px;
+    background: var(--surface);
+    box-shadow:
+      0 0 0 1.5px rgba(23, 23, 28, 0.06),
+      0 50px 90px -40px rgba(23, 23, 28, 0.6),
+      0 20px 40px -24px rgba(23, 23, 28, 0.35);
+  }
+
+  .framed img {
+    display: block;
+    height: 100%;
+    width: auto;
+  }
+</style>
+</head>
+<body>
+  <main class="card">
+    <section class="copy">
+      <div class="head">
+      <p class="eyebrow">
+        <span class="eyebrow__category"></span>
+        <span class="eyebrow__sep"></span>
+        <span class="eyebrow__period"></span>
+      </p>
+      <h1></h1>
+      <p class="tagline"></p>
+      <div class="tags"></div>
+      </div>
+      <div class="foot">
+        <p class="status"><span class="status__dot"></span><span class="status__text"></span></p>
+        <p class="byline">
+          <span class="byline__who"><strong class="byline__name"></strong><span class="byline__role"></span></span>
+          <span class="byline__url"></span>
+        </p>
+      </div>
+    </section>
+    <section class="stage"><div class="shots"></div></section>
+  </main>
+
+<script>
+  const $ = (sel) => document.querySelector(sel);
+
+  function shotMarkup(frame, src) {
+    if (frame === "phone") {
+      return `<div class="phone"><div class="phone__screen"><span class="phone__notch"></span><img src="${src}"></div></div>`;
+    }
+    if (frame === "tablet") {
+      return `<div class="tablet"><div class="tablet__screen"><span class="tablet__cam"></span><img src="${src}"></div></div>`;
+    }
+    return `<div class="framed"><img src="${src}"></div>`;
+  }
+
+  const loaded = (img) =>
+    img.complete ? Promise.resolve() : new Promise((r) => { img.onload = img.onerror = r; });
+
+  // Fan layout: the middle shot sits in front, the others step back and outward.
+  function layoutShots() {
+    const stage = $(".shots");
+    const items = [...stage.children];
+    const n = items.length;
+    const mid = (n - 1) / 2;
+    const SIDE_SCALE = 0.86;
+    const STEP = 0.8; // horizontal step as a fraction of an item's width
+    const DROP = 34; // px each step drops down
+
+    const w = items[0].offsetWidth;
+    const h = items[0].offsetHeight;
+
+    // Fit the whole fan inside the stage with some breathing room.
+    const totalW = n > 1 ? w * STEP * (n - 1) + w * (1 + SIDE_SCALE) / 2 : w;
+    const totalH = h + DROP * Math.ceil(mid);
+    const fit = Math.min(1, (stage.clientWidth - 120) / totalW, (stage.clientHeight - 130) / totalH);
+
+    items.forEach((el, i) => {
+      const d = i - mid;
+      const scale = (d === 0 ? 1 : SIDE_SCALE ** Math.abs(Math.round(d))) * fit;
+      const x = d * w * STEP * fit;
+      const y = Math.abs(d) * DROP * fit;
+      el.style.zIndex = String(100 - Math.round(Math.abs(d) * 10));
+      el.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px) scale(${scale})`;
+    });
+  }
+
+  // Shrink the title until it takes at most three lines.
+  function fitTitle() {
+    const h1 = $("h1");
+    let size = 116;
+    h1.style.fontSize = size + "px";
+    while (h1.offsetHeight > size * 0.96 * 2.05 && size > 72) {
+      size -= 4;
+      h1.style.fontSize = size + "px";
+    }
+  }
+
+  window.renderCard = async (data) => {
+    $(".eyebrow__category").textContent = data.category;
+    $(".eyebrow__period").textContent = data.period;
+    $("h1").textContent = data.name;
+    $(".tagline").textContent = data.tagline;
+    $(".tags").innerHTML = data.tags.map((t) => `<span class="tag">${t}</span>`).join("");
+    $(".status__text").textContent = data.statusText;
+    $(".status").classList.toggle("status--archived", data.status !== "live");
+    $(".byline__name").textContent = data.author;
+    $(".byline__role").textContent = data.role;
+    $(".byline__url").textContent = data.url;
+
+    // Middle of the list is the hero shot.
+    $(".shots").innerHTML = data.images
+      .map((src) => `<div class="shot">${shotMarkup(data.frame, src)}</div>`)
+      .join("");
+
+    await document.fonts.ready;
+    await Promise.all([...document.images].map(loaded));
+    fitTitle();
+    layoutShots();
+  };
+
+  // Preview when opened directly in a browser.
+  if (!navigator.webdriver) {
+    renderCard({
+      name: "Wgbah",
+      tagline: "Internal food ordering",
+      category: "Internal tools",
+      period: "Apr 2025 – Present",
+      status: "live",
+      statusText: "Live on App Store & Google Play",
+      tags: ["Flutter", "Receipt Printing", "Ordering"],
+      author: "Abdelrahman Negm",
+      role: "Mobile Engineer (Flutter)",
+      url: "najm101.github.io/portfolio",
+      frame: "phone",
+      images: ["05.png", "02.png", "04.png"].map((f) => `../src/assets/img/wgbah/${f}`),
+    });
+  }
+</script>
+</body>
+</html>

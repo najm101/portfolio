@@ -9,10 +9,12 @@
     "build:html": "node build.mjs",
     "build": "npm run build:css && npm run build:html",
     "dev": "npm run build && (cd dist && python3 -m http.server 4321)",
-    "serve": "cd dist && python3 -m http.server 4321"
+    "serve": "cd dist && python3 -m http.server 4321",
+    "media:linkedin": "node linkedin/render.mjs"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.1.11",
+    "playwright-core": "^1.63.0",
     "sharp": "^0.35.4",
     "tailwindcss": "^4.1.11"
   }

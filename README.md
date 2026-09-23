@@ -87,3 +87,18 @@ and set **Source = GitHub Actions**. After the next push, the site publishes to
 All asset and anchor paths are relative, so it works correctly under that
 `/portfolio/` subpath. A `.nojekyll` file is emitted so GitHub Pages serves the
 output as-is.
+
+## LinkedIn project media
+
+`linkedin/render.mjs` turns each project into a 1920×1080 PNG for the
+LinkedIn "Projects → Media" slot, using `linkedin/template.html` and the copy
+from `src/data/projects.js`. The three screenshots per card are picked in
+`PICKS` at the top of the script.
+
+```bash
+npm run media:linkedin            # all projects → linkedin/out/<slug>.png
+npm run media:linkedin -- wgbah   # one project
+```
+
+It needs a Chromium: set `CHROME_PATH` to your Chrome binary, or run
+`npx playwright install chromium` once.
